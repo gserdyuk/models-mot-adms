@@ -1,0 +1,13 @@
+* gnucap mextram test vce
+
+.include my-mextram.inc
+
+VB B 0 dc 1.0
+VC C 0 dc 3.0
+VS S 0 dc 0.0
+X1 C B 0 S dt mextram_ckt
+
+.print dc  v(vb) v(c) v(b) v(s) i(VC) i(Vb) i(Vs) 
+.dc vb 0 2 0.1   basic
+ 
+.end

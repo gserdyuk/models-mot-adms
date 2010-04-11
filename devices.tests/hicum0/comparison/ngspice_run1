@@ -1,0 +1,2 @@
+#!/bin/bash
+./myngspice -b hic0_gum.sp >hic0_gum.sp.out

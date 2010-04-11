@@ -1,0 +1,4 @@
+#!/usr/bin/gnuplot
+set title "I base"
+plot "psp102-test.gckt.gnuplot" using 2:4 title "gnucap" , "psp102-test.sp.gnuplot" using 3:5 title "ngspice"
+pause(40) 

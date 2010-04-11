@@ -1,0 +1,2 @@
+#!/bin/bash
+./myngspice -b psp102-test.sp >psp102-test.sp.out

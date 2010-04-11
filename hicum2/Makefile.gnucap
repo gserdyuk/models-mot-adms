@@ -1,0 +1,39 @@
+
+
+TARGET = hicum2
+$(TARGET):
+
+#include Makefile.am
+
+CFILES = \
+hicum2acld.c \
+hicum2ask.c \
+hicum2.c \
+hicum2del.c \
+hicum2dest.c \
+hicum2guesstopology.c \
+hicum2init.c \
+hicum2load.c \
+hicum2mask.c \
+hicum2mdel.c \
+hicum2mpar.c \
+hicum2noise.c \
+hicum2par.c \
+hicum2pzld.c \
+hicum2setup.c \
+hicum2temp.c \
+hicum2trunc.c \
+
+HDRS   = \
+constants.h \
+discipline.h \
+hicum2defs.h \
+hicum2ext.h \
+hicum2init.h \
+hicum2itf.h \
+wrapper.h \
+
+
+SPICE_VERSION = NGSPICE_20
+include ../Make2
+

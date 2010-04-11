@@ -1,0 +1,5 @@
+2010-04-11	G.Serdyuk <gena@analograils.com>
+                - took admst code from NGSPICE and repacked to use it with gnucap
+                - added test cases for gnucap, manually compared results with ngspice
+                - wrote simple howto
+                

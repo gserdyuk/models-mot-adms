@@ -1,0 +1,17 @@
+EKV compariosn resulst
+
+1) compared at dc to ngspice
+graphically can not see any difference
+very good coincides
+
+2) compared to reference data from ekv site
+results differ (very minor, but differ)
+graphically visible, difference is about 1%
+cvan be explained by model code difference 
+(verilog codes at site and at ngspice repo are differents)
+
+3) golden
+contains referemce data, which were checked manually (see comparison)
+
+4) comparison
+contains data obtained from other simulations, manual comparisons by gnuplot

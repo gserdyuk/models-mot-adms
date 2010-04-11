@@ -1,0 +1,15 @@
+* rtest test 
+
+*MCKT 1 2 3 4 nekv26eval W = 2e-05 L = 2e-05
+Drtest 1 2  drtestmodel
+
+.model drtestmodel d r1 1000
+		
+* DEF SOURCES
+V1 1 0 DC 1
+V2 2 0 DC 0
+
+.PRINT DC v(1) I(V1) 
+.DC V1 0 2 0.5  basic
+
+.end

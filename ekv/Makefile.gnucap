@@ -1,0 +1,38 @@
+
+
+TARGET = ekv
+$(TARGET):
+
+include Makefile.am
+
+CFILES = \
+ekvacld.c \
+ekvask.c \
+ekv.c \
+ekvdel.c \
+ekvdest.c \
+ekvguesstopology.c \
+ekvinit.c \
+ekvload.c \
+ekvmask.c \
+ekvmdel.c \
+ekvmpar.c \
+ekvnoise.c \
+ekvpar.c \
+ekvpzld.c \
+ekvsetup.c \
+ekvtemp.c \
+ekvtrunc.c \
+
+HDRS   = \
+constants.h \
+discipline.h \
+ekvdefs.h \
+ekvext.h \
+ekvinit.h \
+ekvitf.h \
+
+
+SPICE_VERSION = NGSPICE_20
+include ../Make2
+

@@ -1,0 +1,3 @@
+#!/bin/bash
+NAME=fg_vce_1_1
+./myngspice -b $NAME.sp | tee $NAME.sp.out

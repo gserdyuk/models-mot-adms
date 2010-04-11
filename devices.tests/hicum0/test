@@ -1,0 +1,19 @@
+#!/bin/bash
+./gnucap_run1
+./gnucap_run2
+
+function okornot ()  {
+if test $1==0; then
+    echo $2 "OK"
+else
+    echo $2 "Failed"
+fi
+}
+
+echo results:
+for file in `ls hic0_*.gckt.out`; do
+   diff $file golden
+   res=$? 
+   okornot $res $file
+done
+echo "...compared"

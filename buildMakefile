@@ -1,0 +1,58 @@
+#!/bin/bash
+#
+# G.Serdyuk, 
+#
+#1) start with adms directory
+#2) got code and put it in subrirectory hicum0
+#3) create Makefile.am by ngspice
+#cd hicum0
+#admsXml  -Iadmsva \
+#    -e ../admst/ngspiceVersion.xml \
+#    -e ../admst/ngspiceMakefile.am.xml  \
+#    admsva/hicum0.va
+# and obtaining good Makefile.am
+#4) generate Makefile in usual way (like ngspice's ./configure)
+#   need to substitute that with something. - ignore thsi step
+#5) make - generates *.o files and *.la     - ignore
+#6) copy directory to models-ngspice17      - located
+#7) make another makefile :( - Makefile.gnucap  - 
+#8) add wrapper.h
+#9) compile
+
+MODEL=$1
+CURRDIR=$PWD
+
+# test if subdirectiry $MODEL and file $MODEL/admsva/$MODEL.va exists
+cd $MODEL
+admsXml  -Iadmsva \
+     -e ../admst/ngspiceVersion.xml \
+     -e ../admst/ngspiceMakefile.am.xml  \
+     admsva/$MODEL.va
+
+make -f Makefile.am
+
+CFILES_LIST=`ls *.c| sed 's/$/ \\\/g' `
+
+HEADERS_LIST=`ls *.h| sed 's/$/ \\\/g' `
+
+#create makefile
+cat<<HERE_DOC >Makefile.gnucap
+
+
+TARGET = $MODEL
+\$(TARGET):
+
+include Makefile.am
+
+CFILES = \\
+$CFILES_LIST
+
+HDRS   = \\
+$HEADERS_LIST
+
+
+SPICE_VERSION = NGSPICE_20
+include ../Make2
+
+HERE_DOC
+

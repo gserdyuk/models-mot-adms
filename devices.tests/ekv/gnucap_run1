@@ -1,0 +1,3 @@
+#!/bin/bash
+GNUCAP=../../../src/gnucap
+$GNUCAP -a ../../ekv/ekv.so -b ekv-test.gckt >ekv-test.gckt.out

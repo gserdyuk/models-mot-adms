@@ -1,0 +1,47 @@
+//======================================================================================
+//======================================================================================
+// Filename: psp102b.va
+//======================================================================================
+//======================================================================================
+//
+//  (c) Copyright 2007, All Rights Reserved, NXP Semiconductors
+//
+//
+//  Version: 102.2, October 2007
+//
+//======================================================================================
+//======================================================================================
+//
+// Further information can be found in the file readme.txt
+//
+
+`include "discipline.h"
+
+`include "SIMKIT_macrodefs.include"
+
+`include "JUNCAP200_macrodefs.include"
+
+`include "PSP102_macrodefs.include"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//  PSP global model code (binning)
+//
+/////////////////////////////////////////////////////////////////////////////
+
+`define Binning true
+
+module PSP102BVA(D, G, S, B)
+
+`P(
+  info = "PSP MOSFET Model"
+  version = `VERS
+  revision = `VREV
+  simkit:name = "psp1021"
+  simkit:desc = "psp_1021"
+);
+
+`include "PSP102_module.include"
+
+endmodule

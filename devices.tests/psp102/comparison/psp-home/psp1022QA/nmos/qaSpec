@@ -1,0 +1,535 @@
+
+//
+// Test specification for psp102.2
+//
+
+//
+// Simulator specific information
+//
+
+`ifdef mica
+nTypeSelectionArguments     PSP102VA TYPE=1
+pTypeSelectionArguments     PSP102VA TYPE=-1
+`endif
+
+`ifdef hspice
+nTypeSelectionArguments     PSP102VA TYPE=1
+pTypeSelectionArguments     PSP102VA TYPE=-1
+`endif
+
+`ifdef spectre
+nTypeSelectionArguments     PSP102VA TYPE=1
+pTypeSelectionArguments     PSP102VA TYPE=-1
+`endif
+
+//
+// General test-independent information
+//
+
+keyLetter                   m
+pins                        d g s b
+temperature                 27 -50 150
+checkPolarity               no
+symmetricPins               d s
+scaleParameters             m
+verilogaFile                veriloga/psp102.va
+
+//
+// Specific tests
+//
+
+
+// *** Id-Vg Tests ***
+
+// Id-Vg @ Vs=Vb=0V, Vd=0.05 & 1.0V, SWIGATE=SWIMPACT=SWGIDL=1, SWJUNCAP=3
+test                        idvg0
+biases                      V(s)=0 V(b)=0
+biasList                    V(d)=0.05,1.0
+biasSweep                   V(g)=-1.0,1.2,0.01
+outputs                     I(d) I(g) I(s) I(b)
+instanceParameters          W=10.0e-6 L=0.1e-6 AS=5e-12 AD=5e-12 PS=21e-6 PD=21e-6
+modelParameters             parameters/psp102_params
+modelParameters             SWIGATE=1 SWIMPACT=1 SWGIDL=1 SWJUNCAP=3
+
+// Id-Vg @ Vs=0V, Vb=-1.0V, Vd=0.05 & 1.0V, SWIGATE=SWIMPACT=SWGIDL=1, SWJUNCAP=3
+test                        idvgh
+biases                      V(s)=0 V(b)=-1.0
+biasList                    V(d)=0.05,1.0
+biasSweep                   V(g)=-1.0,1.2,0.01
+outputs                     I(d) I(g) I(s) I(b)
+instanceParameters          W=10.0e-6 L=0.1e-6 AS=5e-12 AD=5e-12 PS=21e-6 PD=21e-6
+modelParameters             parameters/psp102_params
+modelParameters             SWIGATE=1 SWIMPACT=1 SWGIDL=1 SWJUNCAP=3
+
+// Id-Vg @ Vs=Vb=0V, Vd=0.05 & 1.0V, SWIGATE=SWIMPACT=SWGIDL=SWJUNCAP=0
+test                        idvg0_allsw0
+biases                      V(s)=0 V(b)=0
+biasList                    V(d)=0.05,1.0
+biasSweep                   V(g)=-1.0,1.2,0.01
+outputs                     I(d) I(g) I(s) I(b)
+instanceParameters          W=10.0e-6 L=0.1e-6
+modelParameters             parameters/psp102_params
+modelParameters             SWIGATE=0 SWIMPACT=0 SWGIDL=0 SWJUNCAP=0
+
+// Id-Vg @ Vs=0V, Vb=-1.0V, Vd=0.05 & 1.0V, SWIGATE=SWIMPACT=SWGIDL=SWJUNCAP=0
+test                        idvgh_allsw0
+biases                      V(s)=0 V(b)=-1.0
+biasList                    V(d)=0.05,1.0
+biasSweep                   V(g)=-1.0,1.2,0.01
+outputs                     I(d) I(g) I(s) I(b)
+instanceParameters          W=10.0e-6 L=0.1e-6
+modelParameters             parameters/psp102_params
+modelParameters             SWIGATE=0 SWIMPACT=0 SWGIDL=0 SWJUNCAP=0
+
+// Id-Vg @ Vs=Vb=0V, Vd=0.05 & 1.0V, SWIGATE=1 SWIMPACT=SWGIDL=SWJUNCAP=0
+test                        idvg0_swigate1
+biases                      V(s)=0 V(b)=0
+biasList                    V(d)=0.05,1.0
+biasSweep                   V(g)=-1.0,1.2,0.01
+outputs                     I(d) I(g) I(s) I(b)
+instanceParameters          W=10.0e-6 L=0.1e-6
+modelParameters             parameters/psp102_params
+modelParameters             SWIGATE=1 SWIMPACT=0 SWGIDL=0 SWJUNCAP=0
+
+// Id-Vg @ Vs=0V, Vb=-1.0V, Vd=0.05 & 1.0V, SWIGATE=1 SWIMPACT=SWGIDL=SWJUNCAP=0
+test                        idvgh_swigate1
+biases                      V(s)=0 V(b)=-1.0
+biasList                    V(d)=0.05,1.0
+biasSweep                   V(g)=-1.0,1.2,0.01
+outputs                     I(d) I(g) I(s) I(b)
+instanceParameters          W=10.0e-6 L=0.1e-6
+modelParameters             parameters/psp102_params
+modelParameters             SWIGATE=1 SWIMPACT=0 SWGIDL=0 SWJUNCAP=0
+
+// Id-Vg @ Vs=Vb=0V, Vd=0.05 & 1.0V, SWIMPACT=1 SWIGATE=SWGIDL=SWJUNCAP=0
+test                        idvg0_swimpact1
+biases                      V(s)=0 V(b)=0
+biasList                    V(d)=0.05,1.0
+biasSweep                   V(g)=-1.0,1.2,0.01
+outputs                     I(d) I(g) I(s) I(b)
+instanceParameters          W=10.0e-6 L=0.1e-6
+modelParameters             parameters/psp102_params
+modelParameters             SWIMPACT=1 SWIGATE=0 SWGIDL=0 SWJUNCAP=0
+
+// Id-Vg @ Vs=0V, Vb=-1.0V, Vd=0.05 & 1.0V, SWIMPACT=1 SWIGATE=SWGIDL=SWJUNCAP=0
+test                        idvgh_swimpact1
+biases                      V(s)=0 V(b)=-1.0
+biasList                    V(d)=0.05,1.0
+biasSweep                   V(g)=-1.0,1.2,0.01
+outputs                     I(d) I(g) I(s) I(b)
+instanceParameters          W=10.0e-6 L=0.1e-6
+modelParameters             parameters/psp102_params
+modelParameters             SWIMPACT=1 SWIGATE=0 SWGIDL=0 SWJUNCAP=0
+
+// Id-Vg @ Vs=Vb=0V, Vd=0.05 & 1.0V, SWGIDL=1 SWIGATE=SWIMPACT=SWJUNCAP=0
+test                        idvg0_swgidl1
+biases                      V(s)=0 V(b)=0
+biasList                    V(d)=0.05,1.0
+biasSweep                   V(g)=-1.0,1.2,0.01
+outputs                     I(d) I(g) I(s) I(b)
+instanceParameters          W=10.0e-6 L=0.1e-6
+modelParameters             parameters/psp102_params
+modelParameters             SWGIDL=1 SWIGATE=0 SWIMPACT=0 SWJUNCAP=0
+
+// Id-Vg @ Vs=0V, Vb=-1.0V, Vd=0.05 & 1.0V, SWGIDL=1 SWIGATE=SWIMPACT=SWJUNCAP=0
+test                        idvgh_swgidl1
+biases                      V(s)=0 V(b)=-1.0
+biasList                    V(d)=0.05,1.0
+biasSweep                   V(g)=-1.0,1.2,0.01
+outputs                     I(d) I(g) I(s) I(b)
+instanceParameters          W=10.0e-6 L=0.1e-6
+modelParameters             parameters/psp102_params
+modelParameters             SWGIDL=1 SWIGATE=0 SWIMPACT=0 SWJUNCAP=0
+
+// Id-Vg @ Vs=Vb=0V, Vd=0.05 & 1.0V, SWJUNCAP=1 SWIGATE=SWIMPACT=SWGIDL=0
+test                        idvg0_swjuncap1
+biases                      V(s)=0 V(b)=0
+biasList                    V(d)=0.05,1.0
+biasSweep                   V(g)=-1.0,1.2,0.01
+outputs                     I(d) I(g) I(s) I(b)
+instanceParameters          W=10.0e-6 L=0.1e-6 ABSOURCE=5e-12 ABDRAIN=5e-12 LSSOURCE=11e-6 LGSOURCE=10e-6 LSDRAIN=11e-6 LGDRAIN=10e-6
+modelParameters             parameters/psp102_params
+modelParameters             SWJUNCAP=1 SWIGATE=0 SWIMPACT=0 SWGIDL=0
+
+// Id-Vg @ Vs=0V, Vb=-1.0V, Vd=0.05 & 1.0V, SWJUNCAP=1 SWIGATE=SWIMPACT=SWGIDL=0
+test                        idvgh_swjuncap1
+biases                      V(s)=0 V(b)=-1.0
+biasList                    V(d)=0.05,1.0
+biasSweep                   V(g)=-1.0,1.2,0.01
+outputs                     I(d) I(g) I(s) I(b)
+instanceParameters          W=10.0e-6 L=0.1e-6 ABSOURCE=5e-12 ABDRAIN=5e-12 LSSOURCE=11e-6 LGSOURCE=10e-6 LSDRAIN=11e-6 LGDRAIN=10e-6
+modelParameters             parameters/psp102_params
+modelParameters             SWJUNCAP=1 SWIGATE=0 SWIMPACT=0 SWGIDL=0
+
+// Id-Vg @ Vs=Vb=0V, Vd=0.05 & 1.0V, SWJUNCAP=2 SWIGATE=SWIMPACT=SWGIDL=0
+test                        idvg0_swjuncap2
+biases                      V(s)=0 V(b)=0
+biasList                    V(d)=0.05,1.0
+biasSweep                   V(g)=-1.0,1.2,0.01
+outputs                     I(d) I(g) I(s) I(b)
+instanceParameters          W=10.0e-6 L=0.1e-6 AS=5e-12 AD=5e-12 PS=11e-6 PD=11e-6
+modelParameters             parameters/psp102_params
+modelParameters             SWJUNCAP=2 SWIGATE=0 SWIMPACT=0 SWGIDL=0
+
+// Id-Vg @ Vs=0V, Vb=-1.0V, Vd=0.05 & 1.0V, SWJUNCAP=2 SWIGATE=SWIMPACT=SWGIDL=0
+test                        idvgh_swjuncap2
+biases                      V(s)=0 V(b)=-1.0
+biasList                    V(d)=0.05,1.0
+biasSweep                   V(g)=-1.0,1.2,0.01
+outputs                     I(d) I(g) I(s) I(b)
+instanceParameters          W=10.0e-6 L=0.1e-6 AS=5e-12 AD=5e-12 PS=11e-6 PD=11e-6
+modelParameters             parameters/psp102_params
+modelParameters             SWJUNCAP=2 SWIGATE=0 SWIMPACT=0 SWGIDL=0
+
+// Id-Vg @ Vs=Vb=0V, Vd=0.05 & 1.0V, SWJUNCAP=3 SWIGATE=SWIMPACT=SWGIDL=0
+test                        idvg0_swjuncap3
+biases                      V(s)=0 V(b)=0
+biasList                    V(d)=0.05,1.0
+biasSweep                   V(g)=-1.0,1.2,0.01
+outputs                     I(d) I(g) I(s) I(b)
+instanceParameters          W=10.0e-6 L=0.1e-6 AS=5e-12 AD=5e-12 PS=21e-6 PD=21e-6
+modelParameters             parameters/psp102_params
+modelParameters             SWJUNCAP=3 SWIGATE=0 SWIMPACT=0 SWGIDL=0
+
+// Id-Vg @ Vs=0V, Vb=-1.0V, Vd=0.05 & 1.0V, SWJUNCAP=3 SWIGATE=SWIMPACT=SWGIDL=0
+test                        idvgh_swjuncap3
+biases                      V(s)=0 V(b)=-1.0
+biasList                    V(d)=0.05,1.0
+biasSweep                   V(g)=-1.0,1.2,0.01
+outputs                     I(d) I(g) I(s) I(b)
+instanceParameters          W=10.0e-6 L=0.1e-6 AS=5e-12 AD=5e-12 PS=21e-6 PD=21e-6
+modelParameters             parameters/psp102_params
+modelParameters             SWJUNCAP=3 SWIGATE=0 SWIMPACT=0 SWGIDL=0
+
+// Id-Vg @ Vs=Vb=0V, Vd=0.05 & 1.0V, SWIGATE=SWIMPACT=SWGIDL=1, SWJUNCAP=3, non-zero SA=SB
+test                        idvg0_stistress
+biases                      V(s)=0 V(b)=0
+biasList                    V(d)=0.05,1.0
+biasSweep                   V(g)=-1.0,1.2,0.01
+outputs                     I(d) I(g) I(s) I(b)
+instanceParameters          W=10.0e-6 L=0.1e-6 AS=5e-12 AD=5e-12 PS=21e-6 PD=21e-6 SA=0.5e-6 SB=0.5e-6
+modelParameters             parameters/psp102_params
+modelParameters             SWIGATE=1 SWIMPACT=1 SWGIDL=1 SWJUNCAP=3
+modelParameters             SAREF=3.0e-6 SBREF=3.0e-6 KUO=2e-8 KVSAT=0.1 KVTHO=2.5e-9
+
+// Id-Vg @ Vs=0V, Vb=-1.0V, Vd=0.05 & 1.0V, SWIGATE=SWIMPACT=SWGIDL=1, SWJUNCAP=3, non-zero SA=SB
+test                        idvgh_stistress
+biases                      V(s)=0 V(b)=-1.0
+biasList                    V(d)=0.05,1.0
+biasSweep                   V(g)=-1.0,1.2,0.01
+outputs                     I(d) I(g) I(s) I(b)
+instanceParameters          W=10.0e-6 L=0.1e-6 AS=5e-12 AD=5e-12 PS=21e-6 PD=21e-6 SA=0.5e-6 SB=0.5e-6
+modelParameters             parameters/psp102_params
+modelParameters             SWIGATE=1 SWIMPACT=1 SWGIDL=1 SWJUNCAP=3
+modelParameters             SAREF=3.0e-6 SBREF=3.0e-6 KUO=2e-8 KVSAT=0.1 KVTHO=2.5e-9
+
+
+// *** Id-Vd Tests ***
+
+// Id-Vd @ Vs=Vb=0V, Vg=0.15, 0.25, 0.5, 0.75, & 1.0V, SWIGATE=SWIMPACT=SWGIDL=1, SWJUNCAP=3
+test                        idvd0
+biases                      V(s)=0 V(b)=0
+biasList                    V(g)=0.15,0.25,0.5,0.75,1.0
+biasSweep                   V(d)=0,1.2,0.01
+outputs                     I(d) I(g) I(s) I(b)
+instanceParameters          W=10.0e-6 L=0.1e-6 AS=5e-12 AD=5e-12 PS=21e-6 PD=21e-6
+modelParameters             SWIGATE=1 SWIMPACT=1 SWGIDL=1 SWJUNCAP=3
+modelParameters             parameters/psp102_params
+
+// Id-Vd @ Vs=0V, Vb=-1.0V, Vg=0.15, 0.25, 0.5, 0.75, & 1.0V, SWIGATE=SWIMPACT=SWGIDL=1, SWJUNCAP=3
+test                        idvdh
+biases                      V(s)=0 V(b)=-1.0
+biasList                    V(g)=0.15,0.25,0.5,0.75,1.0
+biasSweep                   V(d)=0,1.2,0.01
+outputs                     I(d) I(g) I(s) I(b)
+instanceParameters          W=10.0e-6 L=0.1e-6 AS=5e-12 AD=5e-12 PS=21e-6 PD=21e-6
+modelParameters             SWIGATE=1 SWIMPACT=1 SWGIDL=1 SWJUNCAP=3
+modelParameters             parameters/psp102_params
+
+// Id-Vd @ Vs=Vb=0V, Vg=0.15, 0.25, 0.5, 0.75, & 1.0V, SWIGATE=SWIMPACT=SWGIDL=SWJUNCAP=0
+test                        idvd0_allsw0
+biases                      V(s)=0 V(b)=0
+biasList                    V(g)=0.15,0.25,0.5,0.75,1.0
+biasSweep                   V(d)=0,1.2,0.01
+outputs                     I(d) I(g) I(s) I(b)
+instanceParameters          W=10.0e-6 L=0.1e-6
+modelParameters             parameters/psp102_params
+modelParameters             SWIGATE=0 SWIMPACT=0 SWGIDL=0 SWJUNCAP=0
+
+// Id-Vd @ Vs=0V, Vb=-1.0V, Vg=0.15, 0.25, 0.5, 0.75, & 1.0V, SWIGATE=SWIMPACT=SWGIDL=SWJUNCAP=0
+test                        idvdh_allsw0
+biases                      V(s)=0 V(b)=-1.0
+biasList                    V(g)=0.15,0.25,0.5,0.75,1.0
+biasSweep                   V(d)=0,1.2,0.01
+outputs                     I(d) I(g) I(s) I(b)
+instanceParameters          W=10.0e-6 L=0.1e-6
+modelParameters             parameters/psp102_params
+modelParameters             SWIGATE=0 SWIMPACT=0 SWGIDL=0 SWJUNCAP=0
+
+// Id-Vd @ Vs=Vb=0V, Vg=0.15, 0.25, 0.5, 0.75, & 1.0V, SWIGATE=1 SWIMPACT=SWGIDL=SWJUNCAP=0
+test                        idvd0_swigate1
+biases                      V(s)=0 V(b)=0
+biasList                    V(g)=0.15,0.25,0.5,0.75,1.0
+biasSweep                   V(d)=0,1.2,0.01
+outputs                     I(d) I(g) I(s) I(b)
+instanceParameters          W=10.0e-6 L=0.1e-6
+modelParameters             parameters/psp102_params
+modelParameters             SWIGATE=1 SWIMPACT=0 SWGIDL=0 SWJUNCAP=0
+
+// Id-Vd @ Vs=0V, Vb=-1.0V, Vg=0.15, 0.25, 0.5, 0.75, & 1.0V, SWIGATE=1 SWIMPACT=SWGIDL=SWJUNCAP=0
+test                        idvdh_swigate1
+biases                      V(s)=0 V(b)=-1.0
+biasList                    V(g)=0.15,0.25,0.5,0.75,1.0
+biasSweep                   V(d)=0,1.2,0.01
+outputs                     I(d) I(g) I(s) I(b)
+instanceParameters          W=10.0e-6 L=0.1e-6
+modelParameters             parameters/psp102_params
+modelParameters             SWIGATE=1 SWIMPACT=0 SWGIDL=0 SWJUNCAP=0
+
+// Id-Vd @ Vs=Vb=0V, Vg=0.15, 0.25, 0.5, 0.75, & 1.0V, SWIMPACT=1 SWIGATE=SWGIDL=SWJUNCAP=0
+test                        idvd0_swimpact1
+biases                      V(s)=0 V(b)=0
+biasList                    V(g)=0.15,0.25,0.5,0.75,1.0
+biasSweep                   V(d)=0,1.2,0.01
+outputs                     I(d) I(g) I(s) I(b)
+instanceParameters          W=10.0e-6 L=0.1e-6
+modelParameters             parameters/psp102_params
+modelParameters             SWIMPACT=1 SWIGATE=0 SWGIDL=0 SWJUNCAP=0
+
+// Id-Vd @ Vs=0V, Vb=-1.0V, Vg=0.15, 0.25, 0.5, 0.75, & 1.0V, SWIMPACT=1 SWIGATE=SWGIDL=SWJUNCAP=0
+test                        idvdh_swimpact1
+biases                      V(s)=0 V(b)=-1.0
+biasList                    V(g)=0.15,0.25,0.5,0.75,1.0
+biasSweep                   V(d)=0,1.2,0.01
+outputs                     I(d) I(g) I(s) I(b)
+instanceParameters          W=10.0e-6 L=0.1e-6
+modelParameters             parameters/psp102_params
+modelParameters             SWIMPACT=1 SWIGATE=0 SWGIDL=0 SWJUNCAP=0
+
+// Id-Vd @ Vs=Vb=0V, Vg=0.15, 0.25, 0.5, 0.75, & 1.0V, SWGIDL=1 SWIGATE=SWIMPACT=SWJUNCAP=0
+test                        idvd0_swgidl1
+biases                      V(s)=0 V(b)=0
+biasList                    V(g)=0.15,0.25,0.5,0.75,1.0
+biasSweep                   V(d)=0,1.2,0.01
+outputs                     I(d) I(g) I(s) I(b)
+instanceParameters          W=10.0e-6 L=0.1e-6
+modelParameters             parameters/psp102_params
+modelParameters             SWGIDL=1 SWIGATE=0 SWIMPACT=0 SWJUNCAP=0
+
+// Id-Vd @ Vs=0V, Vb=-1.0V, Vd=0.15, 0.25, 0.5, 0.75, & 1.0V, SWGIDL=1 SWIGATE=SWIMPACT=SWJUNCAP=0
+test                        idvdh_swgidl1
+biases                      V(s)=0 V(b)=-1.0
+biasList                    V(g)=0.15,0.25,0.5,0.75,1.0
+biasSweep                   V(d)=0,1.2,0.01
+outputs                     I(d) I(g) I(s) I(b)
+instanceParameters          W=10.0e-6 L=0.1e-6
+modelParameters             parameters/psp102_params
+modelParameters             SWGIDL=1 SWIGATE=0 SWIMPACT=0 SWJUNCAP=0
+
+// Id-Vd @ Vs=Vb=0V, Vg=0.15, 0.25, 0.5, 0.75, & 1.0V, SWJUNCAP=1 SWIGATE=SWIMPACT=SWGIDL=0
+test                        idvd0_swjuncap1
+biases                      V(s)=0 V(b)=0
+biasList                    V(g)=0.15,0.25,0.5,0.75,,1.0
+biasSweep                   V(d)=0,1.2,0.01
+outputs                     I(d) I(g) I(s) I(b)
+instanceParameters          W=10.0e-6 L=0.1e-6 ABSOURCE=5e-12 ABDRAIN=5e-12 LSSOURCE=11e-6 LGSOURCE=10e-6 LSDRAIN=11e-6 LGDRAIN=10e-6
+modelParameters             parameters/psp102_params
+modelParameters             SWJUNCAP=1 SWIGATE=0 SWIMPACT=0 SWGIDL=0
+
+// Id-Vd @ Vs=0V, Vb=-1.0V, Vg=0.15, 0.25, 0.5, 0.75, & 1.0V, SWJUNCAP=1 SWIGATE=SWIMPACT=SWGIDL=0
+test                        idvdh_swjuncap1
+biases                      V(s)=0 V(b)=-1.0
+biasList                    V(g)=0.15,0.25,0.5,0.75,1.0
+biasSweep                   V(d)=0,1.2,0.01
+outputs                     I(d) I(g) I(s) I(b)
+instanceParameters          W=10.0e-6 L=0.1e-6 ABSOURCE=5e-12 ABDRAIN=5e-12 LSSOURCE=11e-6 LGSOURCE=10e-6 LSDRAIN=11e-6 LGDRAIN=10e-6
+modelParameters             parameters/psp102_params
+modelParameters             SWJUNCAP=1 SWIGATE=0 SWIMPACT=0 SWGIDL=0
+
+// Id-Vd @ Vs=Vb=0V, Vg=0.15, 0.25, 0.5, 0.75, & 1.0V, SWJUNCAP=2 SWIGATE=SWIMPACT=SWGIDL=0
+test                        idvd0_swjuncap2
+biases                      V(s)=0 V(b)=0
+biasList                    V(g)=0.15,0.25,0.5,0.75,1.0
+biasSweep                   V(d)=0,1.2,0.01
+outputs                     I(d) I(g) I(s) I(b)
+instanceParameters          W=10.0e-6 L=0.1e-6 AS=5e-12 AD=5e-12 PS=11e-6 PD=11e-6
+modelParameters             parameters/psp102_params
+modelParameters             SWJUNCAP=2 SWIGATE=0 SWIMPACT=0 SWGIDL=0
+
+// Id-Vd @ Vs=0V, Vb=-1.0V, Vg=0.15, 0.25, 0.5, 0.75, & 1.0V, SWJUNCAP=2 SWIGATE=SWIMPACT=SWGIDL=0
+test                        idvdh_swjuncap2
+biases                      V(s)=0 V(b)=-1.0
+biasList                    V(g)=0.15,0.25,0.5,0.75,1.0
+biasSweep                   V(d)=0,1.2,0.01
+outputs                     I(d) I(g) I(s) I(b)
+instanceParameters          W=10.0e-6 L=0.1e-6 AS=5e-12 AD=5e-12 PS=11e-6 PD=11e-6
+modelParameters             parameters/psp102_params
+modelParameters             SWJUNCAP=2 SWIGATE=0 SWIMPACT=0 SWGIDL=0
+
+// Id-Vd @ Vs=Vb=0V, Vg=0.15, 0.25, 0.5, 0.75, & 1.0V, SWJUNCAP=3 SWIGATE=SWIMPACT=SWGIDL=0
+test                        idvd0_swjuncap3
+biases                      V(s)=0 V(b)=0
+biasList                    V(g)=0.15,0.25,0.5,0.75,1.0
+biasSweep                   V(d)=0,1.2,0.01
+outputs                     I(d) I(g) I(s) I(b)
+instanceParameters          W=10.0e-6 L=0.1e-6 AS=5e-12 AD=5e-12 PS=21e-6 PD=21e-6
+modelParameters             parameters/psp102_params
+modelParameters             SWJUNCAP=3 SWIGATE=0 SWIMPACT=0 SWGIDL=0
+
+// Id-Vd @ Vs=0V, Vb=-1.0V, Vg=0.15,0.25, 0.5, 0.75, & 1.0V, SWJUNCAP=3 SWIGATE=SWIMPACT=SWGIDL=0
+test                        idvdh_swjuncap3
+biases                      V(s)=0 V(b)=-1.0
+biasList                    V(g)=0.15,0.25,0.5,0.75,1.0
+biasSweep                   V(d)=0,1.2,0.01
+outputs                     I(d) I(g) I(s) I(b)
+instanceParameters          W=10.0e-6 L=0.1e-6 AS=5e-12 AD=5e-12 PS=21e-6 PD=21e-6
+modelParameters             parameters/psp102_params
+modelParameters             SWJUNCAP=3 SWIGATE=0 SWIMPACT=0 SWGIDL=0
+
+// Id-Vd @ Vs=Vb=0V, Vg=0.15, 0.25, 0.5, 0.75, & 1.0V, SWIGATE=SWIMPACT=SWGIDL=1, SWJUNCAP=3, non-zero SA=SB
+test                        idvd0_stistress
+biases                      V(s)=0 V(b)=0
+biasList                    V(g)=0.15,0.25,0.5,0.75,1.0
+biasSweep                   V(d)=0,1.2,0.01
+outputs                     I(d) I(g) I(s) I(b)
+instanceParameters          W=10.0e-6 L=0.1e-6 AS=5e-12 AD=5e-12 PS=21e-6 PD=21e-6 SA=0.5e-6 SB=0.5e-6
+modelParameters             parameters/psp102_params
+modelParameters             SWIGATE=1 SWIMPACT=1 SWGIDL=1 SWJUNCAP=3
+modelParameters             SAREF=3.0e-6 SBREF=3.0e-6 KUO=2e-8 KVSAT=0.1 KVTHO=2.5e-9
+
+// Id-Vd @ Vs=0V, Vb=-1.0V, Vg=0.15, 0.25, 0.5, 0.75, & 1.0V, SWIGATE=SWIMPACT=SWGIDL=1, SWJUNCAP=3, non-zero SA=SB
+test                        idvdh_stistress
+biases                      V(s)=0 V(b)=-1.0
+biasList                    V(g)=0.15,0.25,0.5,0.75,1.0
+biasSweep                   V(d)=0,1.2,0.01
+outputs                     I(d) I(g) I(s) I(b)
+instanceParameters          W=10.0e-6 L=0.1e-6 AS=5e-12 AD=5e-12 PS=21e-6 PD=21e-6 SA=0.5e-6 SB=0.5e-6
+modelParameters             parameters/psp102_params
+modelParameters             SWIGATE=1 SWIMPACT=1 SWGIDL=1 SWJUNCAP=3
+modelParameters             SAREF=3.0e-6 SBREF=3.0e-6 KUO=2e-8 KVSAT=0.1 KVTHO=2.5e-9
+
+
+// *** AC G & C Tests vs. Vg ***
+
+// Conductance & capacitance vs. Vg @ Vs=Vb=0V, Vd=0 & 1.0V, SWIGATE=SWIMPACT=SWGIDL=1, SWJUNCAP=3
+test                        acvg0
+biases                      V(s)=0 V(b)=0
+biasList                    V(d)=0,1.0
+biasSweep                   V(g)=-1.2,1.2,0.05
+outputs                     G(d,g) C(g,g)
+instanceParameters          W=10.0e-6 L=0.1e-6
+modelParameters             SWIGATE=1 SWIMPACT=1 SWGIDL=1 SWJUNCAP=3
+modelParameters             parameters/psp102_params
+
+// Conductance & capacitance vs. Vg @ Vs=0V, Vb=-1.0V, Vd=0 & 1.0V, SWIGATE=SWIMPACT=SWGIDL=1, SWJUNCAP=3
+test                        acvgh
+biases                      V(s)=0 V(b)=-1.0
+biasList                    V(d)=0,1.0
+biasSweep                   V(g)=-1.2,1.2,0.05
+outputs                     G(d,g) C(g,g)
+instanceParameters          W=10.0e-6 L=0.1e-6
+modelParameters             SWIGATE=1 SWIMPACT=1 SWGIDL=1 SWJUNCAP=3
+modelParameters             parameters/psp102_params
+
+// Conductance & capacitance vs. Vg @ Vs=Vb=0V, Vd=0 & 1.0V, SWIGATE=SWIMPACT=SWGIDL=1, SWJUNCAP=3, non-zero SA=SB
+test                        acvg0_stistress
+biases                      V(s)=0 V(b)=0
+biasList                    V(d)=0,1.0
+biasSweep                   V(g)=-1.2,1.2,0.05
+outputs                     G(d,g) C(g,g)
+instanceParameters          W=10.0e-6 L=0.1e-6 AS=5e-12 AD=5e-12 PS=21e-6 PD=21e-6 SA=0.5e-6 SB=0.5e-6
+modelParameters             parameters/psp102_params
+modelParameters             SWIGATE=1 SWIMPACT=1 SWGIDL=1 SWJUNCAP=3
+modelParameters             SAREF=3.0e-6 SBREF=3.0e-6 KUO=2e-8 KVSAT=0.1 KVTHO=2.5e-9
+
+// Conductance & capacitance vs. Vg @ Vs=0V, Vb=-1.0V, Vd=0 & 1.0V, SWIGATE=SWIMPACT=SWGIDL=1, SWJUNCAP=3, non-zero SA=SB
+test                        acvgh_stistress
+biases                      V(s)=0 V(b)=-1.0
+biasList                    V(d)=0,1.0
+biasSweep                   V(g)=-1.2,1.2,0.05
+outputs                     G(d,g) C(g,g)
+instanceParameters          W=10.0e-6 L=0.1e-6 AS=5e-12 AD=5e-12 PS=21e-6 PD=21e-6 SA=0.5e-6 SB=0.5e-6
+modelParameters             parameters/psp102_params
+modelParameters             SWIGATE=1 SWIMPACT=1 SWGIDL=1 SWJUNCAP=3
+modelParameters             SAREF=3.0e-6 SBREF=3.0e-6 KUO=2e-8 KVSAT=0.1 KVTHO=2.5e-9
+
+
+// *** AC G & C Tests vs. Vd ***
+
+// Conductance & capacitance vs. Vd @ Vs=Vb=0V, Vg=0.25, 0.5, 0.75, & 1.0V, SWIGATE=SWIMPACT=SWGIDL=1, SWJUNCAP=3
+test                        acvd0
+biases                      V(s)=0 V(b)=0
+biasList                    V(g)=0.25,0.5,0.75,1.0
+biasSweep                   V(d)=-0.2,1.2,0.05
+outputs                     G(d,d) C(g,s) C(s,g) C(d,s) C(s,d) C(g,d) C(d,g) C(d,b) C(b,d) C(g,b) C(b,g) C(b,s) C(s,b)
+instanceParameters          W=10.0e-6 L=0.1e-6
+modelParameters             SWIGATE=1 SWIMPACT=1 SWGIDL=1 SWJUNCAP=3
+modelParameters             parameters/psp102_params
+
+// Conductance & capacitance vs. Vd @ Vs=0V, Vb=-1.0V, Vd=0.25, 0.5, 0.75, & 1.0V, SWIGATE=SWIMPACT=SWGIDL=1, SWJUNCAP=3
+test                        acvdh
+biases                      V(s)=0 V(b)=-1.0
+biasList                    V(g)=0.25,0.5,0.75,1.0
+biasSweep                   V(d)=-0.2,1.2,0.05
+outputs                     G(d,d) C(g,s) C(s,g) C(d,s) C(s,d) C(g,d) C(d,g) C(d,b) C(b,d) C(g,b) C(b,g) C(b,s) C(s,b)
+instanceParameters          W=10.0e-6 L=0.1e-6
+modelParameters             SWIGATE=1 SWIMPACT=1 SWGIDL=1 SWJUNCAP=3
+modelParameters             parameters/psp102_params
+
+// Conductance & capacitance vs. Vd @ Vs=Vb=0V, Vd=0.25, 0.5, 0.75, & 1.0V, SWIGATE=SWIMPACT=SWGIDL=1, SWJUNCAP=3, non-zero SA=SB
+test                        acvd0_stistress
+biases                      V(s)=0 V(b)=0
+biasList                    V(g)=0.25,0.5,0.75,1.0
+biasSweep                   V(d)=-0.2,1.2,0.05
+outputs                     G(d,d) C(g,s) C(s,g) C(d,s) C(s,d) C(g,d) C(d,g) C(d,b) C(b,d) C(g,b) C(b,g) C(b,s) C(s,b)
+instanceParameters          W=10.0e-6 L=0.1e-6 AS=5e-12 AD=5e-12 PS=21e-6 PD=21e-6 SA=0.5e-6 SB=0.5e-6
+modelParameters             parameters/psp102_params
+modelParameters             SWIGATE=1 SWIMPACT=1 SWGIDL=1 SWJUNCAP=3
+modelParameters             SAREF=3.0e-6 SBREF=3.0e-6 KUO=2e-8 KVSAT=0.1 KVTHO=2.5e-9
+
+// Conductance & capacitance vs. Vd @ Vs=0V, Vb=-1.0V, Vd=0.25, 0.5, 0.75, & 1.0V, SWIGATE=SWIMPACT=SWGIDL=1, SWJUNCAP=3, non-zero SA=SB
+test                        acvdh_stistress
+biases                      V(s)=0 V(b)=-1.0
+biasList                    V(g)=0.25,0.5,0.75,1.0
+biasSweep                   V(d)=-0.2,1.2,0.05
+outputs                     G(d,d) C(g,s) C(s,g) C(d,s) C(s,d) C(g,d) C(d,g) C(d,b) C(b,d) C(g,b) C(b,g) C(b,s) C(s,b)
+instanceParameters          W=10.0e-6 L=0.1e-6 AS=5e-12 AD=5e-12 PS=21e-6 PD=21e-6 SA=0.5e-6 SB=0.5e-6
+modelParameters             parameters/psp102_params
+modelParameters             SWIGATE=1 SWIMPACT=1 SWGIDL=1 SWJUNCAP=3
+modelParameters             SAREF=3.0e-6 SBREF=3.0e-6 KUO=2e-8 KVSAT=0.1 KVTHO=2.5e-9
+
+
+// *** AC C Tests vs. Freq. ***
+
+// Capacitance vs. frequency @ Vs=Vb=0V, Vg=Vd=1.0V, SWIGATE=SWIMPACT=SWGIDL=1, SWJUNCAP=3
+test                        acfreq0
+temperature                 27
+biases                      V(s)=0 V(b)=0 V(d)=1.0 V(g)=1.0
+freq                        dec 10 1e3 1e8
+outputs                     C(g,g) C(g,s) C(g,d)
+instanceParameters          W=10.0e-6 L=1.0e-6
+modelParameters             SWIGATE=1 SWIMPACT=1 SWGIDL=1 SWJUNCAP=3
+modelParameters             parameters/psp102_params
+
+
+// *** Noise Tests ***
+
+// Gate Noise @ Vs=Vb=0V, Vd=1.0V, Vg=0.25, 0.5, 0.75, & 1.0V, SWIGATE=SWIMPACT=SWGIDL=1, SWJUNCAP=3
+test                        noise1
+biases                      V(s)=0 V(b)=0 V(d)=1.0
+biasList                    V(g)=0.25,0.5,0.75,1.0
+freq                        dec 10 1e2 1e8
+outputs                     N(g)
+instanceParameters          W=10.0e-6 L=0.1e-6 AS=5e-12 AD=5e-12 PS=21e-6 PD=21e-6
+modelParameters             SWIGATE=1 SWIMPACT=1 SWGIDL=1 SWJUNCAP=3
+modelParameters             parameters/psp102_params
+
+// Drain Noise @ Vs=Vb=0V, Vd=1.0V, Vg=0.25, 0.5, 0.75, & 1.0V, SWIGATE=SWIMPACT=SWGIDL=1, SWJUNCAP=3
+test                        noise2
+biases                      V(s)=0 V(b)=0 V(d)=1.0
+biasList                    V(g)=0.25,0.5,0.75,1.0
+freq                        dec 10 1e2 1e8
+outputs                     N(d)
+instanceParameters          W=10.0e-6 L=0.1e-6 AS=5e-12 AD=5e-12 PS=21e-6 PD=21e-6
+modelParameters             SWIGATE=1 SWIMPACT=1 SWGIDL=1 SWJUNCAP=3
+modelParameters             parameters/psp102_params

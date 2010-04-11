@@ -1,0 +1,15 @@
+Test hicum0:
+
+compared gnucap results to ngspice results at two circuits
+
+*.sp 	- ngspice files
+*.gckt 	- gnucap files
+*.out 	- outputs
+*.gnuplot	- prepared for gnuplot
+*_run* 	- files to run
+ 
+Conclusion
+compared at dc to ngspice, 
+very good coinsides (graphically - can not see difference)
+differemvce in 4-th digit
+

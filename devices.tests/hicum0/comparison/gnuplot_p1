@@ -1,0 +1,10 @@
+#!/usr/bin/gnuplot
+set title "I base"
+plot "hic0_gum.gckt.gnuplot" using 1:2 title "gnucap" , "hic0_gum.sp.gnuplot" using 2:3 title "ngspice"
+pause(3) 
+set title "I collector"
+plot "hic0_gum.gckt.gnuplot" using 1:3 title "gnucap" , "hic0_gum.sp.gnuplot" using 2:4  title "ngspice"
+pause(3) 
+set title "I substrate"
+plot "hic0_gum.gckt.gnuplot" using 1:4 title "gnucap" , "hic0_gum.sp.gnuplot" using 2:5  title "ngspice"
+pause(3)

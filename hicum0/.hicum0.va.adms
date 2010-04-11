@@ -1,0 +1,1102 @@
+# 1 "admsva/hicum0.va"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# 49 "admsva/hicum0.va"
+
+
+
+
+
+
+
+
+# 1 "constants.h"
+
+
+
+
+
+
+
+# 10 "constants.h"
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+# 58 "admsva/hicum0.va"
+# 1 "discipline.h"
+
+
+
+
+
+
+# 9 "discipline.h"
+
+
+
+
+discipline logic
+  domain discrete;
+enddiscipline
+
+
+
+
+
+
+nature Current
+  units = "A";
+  access = I;
+  idt_nature = Charge;
+# 29 "discipline.h"
+  abstol = 1e-12;
+
+endnature
+
+nature Charge
+  units = "coul";
+  access = Q;
+  ddt_nature = Current;
+# 40 "discipline.h"
+  abstol = 1e-14;
+
+endnature
+
+nature Voltage
+  units = "V";
+  access = V;
+  idt_nature = Flux;
+# 51 "discipline.h"
+  abstol = 1e-6;
+
+endnature
+
+nature Flux
+  units = "Wb";
+  access = Phi;
+  ddt_nature = Voltage;
+# 62 "discipline.h"
+  abstol = 1e-9;
+
+endnature
+
+discipline electrical
+  potential Voltage;
+  flow Current;
+enddiscipline
+
+discipline voltage
+  potential Voltage;
+enddiscipline
+discipline current
+  potential Current;
+enddiscipline
+
+
+nature Magneto_Motive_Force
+  units = "A*turn";
+  access = MMF;
+# 85 "discipline.h"
+  abstol = 1e-12;
+
+endnature
+
+discipline magnetic
+  potential Magneto_Motive_Force;
+  flow Flux;
+enddiscipline
+
+
+nature Temperature
+  units = "K";
+  access = Temp;
+# 101 "discipline.h"
+  abstol = 1e-4;
+
+endnature
+
+nature Power
+  units = "W";
+  access = Pwr;
+# 111 "discipline.h"
+  abstol = 1e-9;
+
+endnature
+
+discipline thermal
+  potential Temperature;
+  flow Power;
+enddiscipline
+
+
+nature Position
+  units = "m";
+  access = Pos;
+  ddt_nature = Velocity;
+# 128 "discipline.h"
+  abstol = 1e-6;
+
+endnature
+
+nature Velocity
+  units = "m/s";
+  access = Vel;
+  ddt_nature = Acceleration;
+  idt_nature = Position;
+# 140 "discipline.h"
+  abstol = 1e-6;
+
+endnature
+
+nature Acceleration
+  units = "m/s^2";
+  access = Acc;
+  ddt_nature = Impulse;
+  idt_nature = Velocity;
+# 152 "discipline.h"
+  abstol = 1e-6;
+
+endnature
+
+nature Impulse
+  units = "m/s^3";
+  access = Imp;
+  idt_nature = Acceleration;
+# 163 "discipline.h"
+  abstol = 1e-6;
+
+endnature
+
+nature Force
+  units = "N";
+  access = F;
+# 173 "discipline.h"
+  abstol = 1e-6;
+
+endnature
+
+discipline kinematic
+  potential Position;
+  flow Force;
+enddiscipline
+discipline kinematic_v
+  potential Velocity;
+  flow Force;
+enddiscipline
+
+
+nature Angle
+  units = "rads";
+  access = Theta;
+  ddt_nature = Angular_Velocity;
+# 194 "discipline.h"
+  abstol = 1e-6;
+
+endnature
+
+nature Angular_Velocity
+  units = "rads/s";
+  access = Omega;
+  ddt_nature = Angular_Acceleration;
+  idt_nature = Angle;
+# 206 "discipline.h"
+  abstol = 1e-6;
+
+endnature
+
+nature Angular_Acceleration
+  units = "rads/s^2";
+  access = Alpha;
+  idt_nature = Angular_Velocity;
+# 217 "discipline.h"
+  abstol = 1e-6;
+
+endnature
+
+nature Angular_Force
+  units = "N*m";
+  access = Tau;
+# 227 "discipline.h"
+  abstol = 1e-6;
+
+endnature
+
+discipline rotational
+  potential Angle;
+  flow Angular_Force;
+enddiscipline
+discipline rotational_omega
+  potential Angular_Velocity;
+  flow Angular_Force;
+enddiscipline
+
+# 59 "admsva/hicum0.va"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+module hic0_full (c,b,e,s,tnode);                    
+                                               
+                                            
+
+                      
+	inout		c,b,e,s,tnode;                                                  
+	electrical 	c      (*info="external collector node"*);
+	electrical 	b      (*info="external base node"*);
+	electrical 	e      (*info="external emitter node"*);
+	electrical 	s      (*info="external substrate node"*);
+	electrical 	ci     (*info="internal collector node"*);
+	electrical 	bi     (*info="internal base node"*);
+	electrical 	ei     (*info="internal emitter node"*);
+	electrical 	tnode  (*info="local temperature rise node"*);
+	
+	
+	
+	branch 		(ci,c) 		br_cic_i;
+	branch 		(ci,c) 		br_cic_v;
+	branch 		(ei,e) 		br_eie_i;
+	branch 		(ei,e) 		br_eie_v;
+	branch		(bi,ei)		br_biei;
+	branch		(bi,ci)		br_bici;
+	branch		(ci,ei)		br_ciei;
+	branch 		(b,bi)  	br_bbi_i;  
+	branch 		(b,bi)  	br_bbi_v; 	
+	branch		(b,e)		br_be;
+	branch		(b,ci)		br_bci;
+	branch		(b,s)		br_bs;
+	branch		(s,ci)		br_sci;
+	branch		(tnode )	br_sht;                          
+                                        
+
+
+                                               
+
+	parameter real is     		= 1.0e-16	from [0:1]	 (*spice:name="is"  info="(Modified) saturation current" m:factor="yes" unit="A"*);                  
+	parameter real mcf    		= 1.00		from (0:10]	 (*spice:name="mcf" info="Non-ideality coefficient of forward collector current"*);                  
+	parameter real mcr    		= 1.00		from (0:10]	 (*spice:name="mcr" info="Non-ideality coefficient of reverse collector current"*);                
+	parameter real vef   		=  1.0e6		from (0: 1.0e6]	 (*spice:name="vef" info="forward Early voltage (normalization volt.)"  unit="V" default:value="infinity"*);                  
+	parameter real iqf    		=  1.0e6		from (0: 1.0e6]	 (*spice:name="iqf" info="forward d.c. high-injection toll-off current" unit="A" m:factor="yes" default:value="infinity"*);        
+	parameter real iqr    		=  1.0e6		from (0: 1.0e6]	 (*spice:name="iqr" info="inverse d.c. high-injection roll-off current" unit="A" m:factor="yes" default:value="infinity"*);               
+	parameter real iqfh   		=  1.0e6		from (0: 1.0e6]	 (*spice:name="iqfh" info="high-injection correction current" unit="A" m:factor="yes"*);              
+	parameter real tfh    		= 0.0		from [0: 1.0e6)	 (*spice:name="tfh" info="high-injection correction factor" test:value="2e-9" m:factor="yes"*);                
+                                               
+
+	parameter real ibes   		= 1e-18		from [0:1]	 (*spice:name="ibes" info="BE saturation current" unit="A" m:factor="yes"*);                 
+	parameter real mbe    		= 1.0		from (0:10]	 (*spice:name="mbe"  info="BE non-ideality factor"*);                 
+	parameter real ires   		= 0.0		from [0:1]	 (*spice:name="ires" info="BE recombination saturation current" test:value="1e-16" unit="A" m:factor="yes"*);               
+	parameter real mre    		= 2.0		from (0:10]	 (*spice:name="mre"  info="BE recombination non-ideality factor"*);        
+	parameter real ibcs  		= 0.0		from [0:1]	 (*spice:name="ibcs" info="BC saturation current" test:value="1e-16" unit="A" m:factor="yes"*);   
+	parameter real mbc    		= 1.0		from (0:10]	 (*spice:name="mbc"  info="BC non-ideality factor"*);
+                                               
+
+	parameter real cje0   		= 1.0e-20 	from (0: 1.0e6)	 (*spice:name="cje0" info="Zero-bias BE depletion capacitance" unit="F" test:value="2e-14" m:factor="yes"*);
+	parameter real vde    		= 0.9		from (0:10]	 (*spice:name="vde"  info="BE built-in voltage" unit="V"*);
+	parameter real ze     		= 0.5		from (0:1]	 (*spice:name="ze"   info="BE exponent factor"*); 
+	parameter real aje    		= 2.5		from [1: 1.0e6)	 (*spice:name="aje"  info="Ratio of maximum to zero-bias value"*);
+                                               
+
+	parameter real t0     		= 0.0		from [0: 1.0e6)	 (*spice:name="t0"    info="low current transit time at Vbici=0" test:value="5e-12" unit="s"*);
+	parameter real dt0h   		= 0.0;		
+	parameter real tbvl   		= 0.0		from [0: 1.0e6)	 (*spice:name="tbvl"  info="SCR width modulation contribution" test:value="4e-12" unit="s"*);
+	parameter real tef0   		= 0.0		from [0: 1.0e6)	 (*spice:name="tef0"  info="Storage time in neutral emitter" test:value="1e-12" unit="s"*); 
+	parameter real gte    		= 1.0		from (0:10]	 (*spice:name="gte"   info="Exponent factor for emmiter transit time"*);                  
+	parameter real thcs   		= 0.0		from [0: 1.0e6)	 (*spice:name="thcs"  info="Saturation time at high current densities" test:value="3e-11" unit="s"*);
+	parameter real ahc    		= 0.1		from (0:10]	 (*spice:name="ahc"   info="Smoothing facor for current dependence"*);
+	parameter real tr     		= 0.0		from [0: 1.0e6)	 (*spice:name="tr"    info="Storage time at inverse operation" unit="s"*); 
+	                                             
+
+	parameter real rci0   		= 150		from (0: 1.0e6)	 (*spice:name="rci0"  info="Low-field collector resistance under emitter" test:value="50" unit="Ohm" m:inverse_factor="yes"*);
+	parameter real vlim   		= 0.5		from (0:10]	 (*spice:name="vlim"  info="Voltage dividing ohmic and satur.region" unit="V"*);                  
+	parameter real vpt    		= 100		from (0:100]	 (*spice:name="vpt"   info="Punch-through voltage" test:value="10" unit="V" default="infinity"*);
+	parameter real vces  		= 0.1		from [0:1]	 (*spice:name="vces"  info="Saturation voltage" unit="V"*);
+                                               
+
+	parameter real cjci0  		= 1.0e-20	from (0: 1.0e6)	 (*spice:name="cjci0" info="Total zero-bias BC depletion capacitance" test:value="1e-15" unit="F" m:factor="yes"*);     
+	parameter real vdci   		= 0.7		from (0:10]	 (*spice:name="vdci"  info="BC built-in voltage" test:value="0.7" unit="V"*);
+	parameter real zci    		= 0.333		from (0:1]	 (*spice:name="zci"   info="BC exponent factor" test:value="0.4"*); 
+	parameter real vptci  		= 100		from (0:100]	 (*spice:name="vptci" info="Punch-through voltage of BC junction" test:value="50" unit="V"*);       
+                                               
+
+	parameter real cjcx0  		= 1.0e-20	from [0: 1.0e6)	 (*spice:name="cjcx0" info="Zero-bias external BC depletion capacitance" unit="F" test:value="1e-15" m:factor="yes"*);     
+	parameter real vdcx   		= 0.7		from (0:10]	 (*spice:name="vdcx"  info="External BC built-in voltage" unit="V"*);  
+	parameter real zcx    		= 0.333		from (0:1]	 (*spice:name="zcx"   info="External BC exponent factor"*);   
+	parameter real vptcx  		= 100		from (0:100]	 (*spice:name="vptcx" info="Punch-through voltage" unit="V" test:value="5.0" default="infinity"*);  
+	parameter real fbc    		= 1.0		from [0:1]	 (*spice:name="fbc"   info="Split factor = Cjci0/Cjc0" test:value="0.5"*);  
+                                               
+
+	parameter real rbi0   		= 0.0		from [0: 1.0e6)	 (*spice:name="rbi0"  info="Internal base resistance at zero-bias" test:value="100" unit="Ohm" m:inverse_factor="yes"*);   
+	parameter real vr0e   		= 2.5		from (0: 1.0e6]	 (*spice:name="vr0e"  info="forward Early voltage (normalization volt.)" unit="V"*);                 
+	parameter real vr0c   		=  1.0e6		from (0: 1.0e6]	 (*spice:name="vr0c" info="forward Early voltage (normalization volt.)" unit="V" default="infinity" test:value="25.0"*);                  
+	parameter real fgeo   		= 0.656		from [0: 1.0e6]	 (*spice:name="fgeo"  info="Geometry factor" test:value="0.73"*); 
+                                               
+
+	parameter real rbx    		= 0.0		from [0: 1.0e6)	 (*spice:name="rbx"   info="External base series resistance" test:value="8.8" unit="Ohm" m:inverse_factor="yes"*); 
+	parameter real rcx    		= 0.0		from [0: 1.0e6)	 (*spice:name="rcx"   info="Emitter series resistance" test:value="12.5" unit="Ohm" m:inverse_factor="yes"*);        
+	parameter real re     		= 0.0		from [0: 1.0e6)	 (*spice:name="re"    info="External collector series resistance" test:value="9.16" unit="Ohm" m:inverse_factor="yes"*);      
+                                               
+
+	parameter real itss   		= 0.0		from [0:1.0]	 (*spice:name="itss" info="Substrate transistor transfer saturation current" unit="A" test:value="1e-17" m:factor="yes"*);    
+	parameter real msf    		= 1.0		from (0:10]	 (*spice:name="msf"  info="Substrate transistor transfer current non-ideality factor"*);   
+	parameter real iscs   		= 0.0		from [0:1.0]	 (*spice:name="iscs" info="SC saturation current" unit="A" test:value="1e-17" m:factor="yes"*);    
+	parameter real msc    		= 1.0		from (0:10]	 (*spice:name="msc"  info="SC non-ideality factor"*);   
+	parameter real cjs0   		= 1.0e-20	from [0: 1.0e6)	 (*spice:name="cjs0" info="Zero-bias SC depletion capacitance" unit="F" test:value="1e-15" m:factor="yes"*);    
+	parameter real vds    		= 0.3		from (0:10]	 (*spice:name="vds"  info="SC built-in voltage" unit="V"*);     
+	parameter real zs     		= 0.3		from (0:1]	 (*spice:name="zs"   info="External SC exponent factor"*);
+	parameter real vpts   		= 100		from (0:100]	 (*spice:name="vpts" info="SC punch-through voltage" unit="V" test:value="5.0" default="infinity"*);     
+                                               
+
+	parameter real cbcpar 		= 0.0		from [0: 1.0e6)	 (*spice:name="cbcpar" info="Collector-base isolation (overlap) capacitance" unit="F" m:factor="yes" test:value="1e-15"*); 
+	parameter real cbepar 		= 0.0		from [0: 1.0e6)	 (*spice:name="cbepar" info="Emitter-base oxide capacitance" unit="F" m:factor="yes" test:value="2e-15"*);  
+                                               
+
+	parameter real eavl   		= 0.0		from [0:inf)	 (*spice:name="eavl" info="Exponent factor" test:value="1e-14"*);    
+	parameter real kavl   		= 0.0		from [0: 1.0e6)	 (*spice:name="kavl" info="Prefactor" test:value="1.19"*);                  
+                                               
+
+	parameter real kf     		= 0.0		from [0: 1.0e6)	 (*spice:name="kf" info="flicker noise coefficient" unit="M^(1-AF)"*);         
+	parameter real af     		= 2.0		from (0:10]	 (*spice:name="af" info="flicker noise exponent factor"*);  
+                                               
+
+	parameter real vgb    		= 1.2		from (0:10]	 (*spice:name="vgb"     info="Bandgap-voltage" unit="V" test:value="1.17"*); 
+	parameter real vge    		= 1.17		from (0:10]	 (*spice:name="vge"     info="Effective emitter bandgap-voltage" unit="V" test:value="1.07"*);  
+	parameter real vgc    		= 1.17		from (0:10]	 (*spice:name="vgc"     info="Effective collector bandgap-voltage" unit="V" test:value="1.14"*);         
+	parameter real vgs    		= 1.17		from (0:10]	 (*spice:name="vgs"     info="Effective substrate bandgap-voltage" unit="V" test:value="1.17"*); 
+	parameter real f1vg   		=-1.02377e-4			 (*spice:name="f1vg" info="Coefficient K1 in T-dependent bandgap equation" unit="V/K"*);
+	parameter real f2vg   		= 4.3215e-4			 (*spice:name="f2vg" info="Coefficient K2 in T-dependent bandgap equation" unit="V/K"*);
+	parameter real alt0   		= 0.0				 (*spice:name="alt0"    info="Frist-order TC of tf0" unit="1/K"*);
+	parameter real kt0    		= 0.0				 (*spice:name="kt0"     info="Second-order TC of tf0" unit="1/K^2"*);                   
+	parameter real zetact 		= 3.0				 (*spice:name="zetact"  info="Exponent coefficient in transfer current temperature dependence" test:value="3.5"*);        
+	parameter real zetabet		= 3.5				 (*spice:name="zetabet" info="Exponent coefficient in BE junction current temperature dependence" test:value="4.0"*);         
+	parameter real zetaci 		= 0.0				 (*spice:name="zetaci"  info="TC of epi-collector diffusivity" test:value="1.6"*); 
+	parameter real alvs   		= 0.0				 (*spice:name="alvs"    info="Relative TC of satur.drift velocity" unit="1/K" test:value="1e-3"*);
+	parameter real alces  		= 0.0				 (*spice:name="alces"   info="Relative TC of vces" unit="1/K" test:value="4e-4"*); 
+	parameter real zetarbi		= 0.0				 (*spice:name="zetarbi" info="TC of internal base resistance" test:value="0.6"*); 
+	parameter real zetarbx		= 0.0				 (*spice:name="zetarbx" info="TC of external base resistance" test:value="0.2"*); 
+	parameter real zetarcx		= 0.0				 (*spice:name="zetarcx" info="TC of external collector resistance" test:value="0.2"*);
+	parameter real zetare		= 0.0				 (*spice:name="zetare"  info="TC of emitter resistances"*); 
+	parameter real alkav		= 0.0				 (*spice:name="alkav" info="TC of avalanche prefactor" unit="1/K"*); 
+	parameter real aleav		= 0.0				 (*spice:name="aleav" info="TC of avalanche exponential factor" unit="1/K"*);
+	
+
+ 	parameter integer flsh		= 0		from [0:2]	 (*spice:name="flsh"  info="Flag for self-heating calculation" test:value="2"*);            
+ 	parameter real rth		= 0.0		from [0: 1.0e6)	 (*spice:name="rth"  info="Thermal resistance" test:value="200.0" unit="K/W" m:inverse_factor="yes"*);            
+	parameter real cth		= 0.0		from [0: 1.0e6)	 (*spice:name="cth"  info="Thermal capacitance" test:value="0.1" unit="Ws/K" m:factor="yes"*);
+	
+
+	parameter integer npn		= 1		from [0:1]	 (*spice:isflag="yes" info="model type flag  for npn" *);
+	parameter integer pnp		= 0		from [0:1]	 (*info="model type flag  for pnp" *);
+
+
+	parameter real tnom		= 27				 (*spice:name="tnom" info="Temperature for which parameters are valid" unit="C"*);
+	parameter real dt		= 0.0				 (*spice:name="dt" type="instance" info="Temperature change for particular transistor" unit="K"*);                   
+
+
+
+
+        real _circuit_gmin;
+
+	real HICUMtype  (*spice:name="type" info="Device type from npn or pnp flags" unit="no" ask="yes"*);
+
+	
+	real cj0,vd,z,aj;
+	real zr,vp;
+	real cmax,cr,ve;
+	real ee1,ez,ezr,vdj1,vdj2,ex1,vr,vj1,vj2,vj4;
+	real qj1,qj2,qj3,qjf;
+	
+	
+	
+	real cj1,cj2,cj3,cjf;
+	
+	
+	
+	real	vg;
+	real	vdj0,vdjt,cj0_t,vd_t,aj_t;
+	
+	
+	
+	real VT,Tamb,Tdev,Tnom,dT,qtt0,ln_qtt0;
+	real vde_t,vdci_t,vdcx_t,vds_t;
+	real is_t,ires_t,ibes_t,ibcs_t;
+	real itss_t,iscs_t,cje0_t,cjci0_t,cjcx0_t;
+	real cjs0_t,rci0_t,vlim_t;
+	real vces_t,thcs_t,tef0_t,rbi0_t;
+	real rbx_t,rcx_t,re_t,t0_t,eavl_t,kavl_t;
+	real aje_t;
+
+	
+	real qjci  (*ask="yes" info="B-C internal junction charge" unit="C"*);
+	real qjcx,qjcii,cjcii,qjcxi,qjciii; 
+	real cjci0_t_ii,cjcx0_t_ii,cjcx0_t_i,v_j;
+
+	
+	real qjei  (*ask="yes" info="B-E internal junction charge" unit="C"*);
+	real cjei_i  (*ask="yes" info="B-E internal junction capacitance" unit="F"*); 
+	real cjei,vf,vj,x,y,e1,e2;  
+	 
+	
+	real cc,qj_2,facl;
+	real tf0,ickf,ickr,itfi,itri,qm;
+	real qpt,itf,itr;
+	real it  (*ask="yes" info="Transfer Current" unit="A"*);
+	real ibe,ire,ibi;
+	real itfl,itrl,al,s3l,wl,d_qfh;
+	
+	
+	real qf,qf0,dqfh,dqef;
+	real dtef,dtfh,tf,ick;
+	real vc,vceff,s3,w,a,tww;
+
+	
+	real qr;
+
+	
+	real v_bord,a_iavl,lncc;
+	
+	
+	real rb,eta,rbi,qje,Qz_nom,fQz; 
+
+	
+	real qjs,HSa,HSb,HSI_Tsu,HSUM;
+
+	
+	real pterm;
+	
+	
+  	real mg,zetabci,zetasct,zetatef,avs;
+  	real k1,k2,vgbe,vgbc,vgsc,dvg;	
+  	real xvf,xvf2,dvj,uvc,Vt0;
+
+  	
+  	real flicker_Pwr,fourkt,twoq;
+  	
+  	
+  	real	le,arg,le1,arg1,le2,arg2;
+  	
+  	
+  	real	IS,IST,UM1,U,Iz,DIOY;
+  	
+  	
+  	real   Vbci,Vbici,Vbiei,Vciei,Vsci,Veie,Vbbi,Vcic,Vbe,Vrth;
+	
+	
+	real	ijbc  (*ask="yes" info="Base-collector diode current" unit="A"*);
+	real	iavl  (*ask="yes" info="Avalanche current" unit="A"*);
+	real	ijsc  (*ask="yes" info="Substrate-collector diode current" unit="A"*);
+	real	Ieei  (*ask="yes" info="Current through external to internal emitter node" unit="A"*);
+	real	Icci  (*ask="yes" info="Current through external to internal collector node" unit="A"*);
+	real	Ibbi  (*ask="yes" info="Current through external to internal base node" unit="A"*);
+	real	Ibici  (*ask="yes" info="Base-collector diode current minus the avalanche current" unit="A"*);
+	real	ijbe  (*ask="yes" info="Base-emitter diode current" unit="A"*);
+
+  	real	Qbci,Qbe,Qbici,Qbiei;
+
+
+  
+
+
+
+
+analog begin
+
+
+
+	 @(initial_model)
+	 begin
+	  if ( $given(npn))
+	     HICUMtype	=   +1;
+	  else if ( $given(pnp))
+	     HICUMtype	=   -1;
+	  else
+	     HICUMtype	=   +1;
+         end
+
+	Vbci  = HICUMtype*V(br_bci);
+	Vbici = HICUMtype*V(br_bici);
+	Vbiei = HICUMtype*V(br_biei);
+	Vciei = HICUMtype*V(br_ciei);
+	Vsci  = HICUMtype*V(br_sci);
+	Veie  = V(br_eie_v);
+	Vcic  = V(br_cic_v);
+	Vbbi  = V(br_bbi_v);
+	Vbe   = HICUMtype*V(br_be);
+	Vrth  = V(br_sht);
+
+
+
+
+
+
+
+	Tnom	= tnom+273.15;
+	Tamb	= $temperature;
+	Tdev	= Tamb+dt+Vrth;
+	
+
+	if(Tdev <  -100.0 + 273.15) begin
+	   Tdev =  -100.0 + 273.15;
+	end else begin
+ 	if (Tdev >  326.85 + 273.15) begin
+	   Tdev =  326.85 + 273.15;
+	end
+	end
+
+	Vt0     =  1.3806503e-23*Tnom / 1.602176462e-19;
+	VT      =  1.3806503e-23*Tdev / 1.602176462e-19;
+	dT      = Tdev-Tnom;  
+	qtt0    = Tdev/Tnom;
+	ln_qtt0 = ln(qtt0);
+	k1      = f1vg*Tnom;
+	k2      = f2vg*Tnom+k1*ln(Tnom);
+	avs     = alvs*Tnom;
+	vgbe    = (vgb+vge)/2;   
+	vgbc    = (vgb+vgc)/2;   
+	vgsc    = (vgs+vgc)/2;   
+	mg      = 3- 1.602176462e-19*f1vg/ 1.3806503e-23;
+	zetabci = mg+1-zetaci;
+	zetasct = mg-1.5;  
+	is_t    = is*exp(zetact*ln_qtt0+vgb/VT*(qtt0-1));
+	ibes_t  = ibes*exp(zetabet*ln_qtt0+vge/VT*(qtt0-1));
+	ires_t  = ires*exp(0.5*mg*ln_qtt0+0.5*vgbe/VT*(qtt0-1));
+	ibcs_t  = ibcs*exp(zetabci*ln_qtt0+vgc/VT*(qtt0-1));
+	itss_t	= itss*exp(zetasct*ln_qtt0+vgc/VT*(qtt0-1));
+	iscs_t  = iscs*exp(zetasct*ln_qtt0+vgs/VT*(qtt0-1));
+	 arg	= 0.5*vde/Vt0;	vdj0	= 2*Vt0*ln(exp(arg)-exp(-arg));	vdjt	= vdj0*qtt0+vgbe*(1-qtt0)-mg*VT*ln_qtt0;	vde_t	= vdjt+2*VT*ln(0.5*(1+sqrt(1+4*exp(-vdjt/VT))));	cje0_t	= cje0*exp(ze*ln(vde/vde_t));
+	aje_t	= aje*vde_t/vde;
+	 arg	= 0.5*vdci/Vt0;	vdj0	= 2*Vt0*ln(exp(arg)-exp(-arg));	vdjt	= vdj0*qtt0+vgbc*(1-qtt0)-mg*VT*ln_qtt0;	vdci_t	= vdjt+2*VT*ln(0.5*(1+sqrt(1+4*exp(-vdjt/VT))));	cjci0_t	= cjci0*exp(zci*ln(vdci/vdci_t));
+	 arg	= 0.5*vdcx/Vt0;	vdj0	= 2*Vt0*ln(exp(arg)-exp(-arg));	vdjt	= vdj0*qtt0+vgbc*(1-qtt0)-mg*VT*ln_qtt0;	vdcx_t	= vdjt+2*VT*ln(0.5*(1+sqrt(1+4*exp(-vdjt/VT))));	cjcx0_t	= cjcx0*exp(zcx*ln(vdcx/vdcx_t));
+	 arg	= 0.5*vds/Vt0;	vdj0	= 2*Vt0*ln(exp(arg)-exp(-arg));	vdjt	= vdj0*qtt0+vgsc*(1-qtt0)-mg*VT*ln_qtt0;	vds_t	= vdjt+2*VT*ln(0.5*(1+sqrt(1+4*exp(-vdjt/VT))));	cjs0_t	= cjs0*exp(zs*ln(vds/vds_t));
+	rci0_t  = rci0*exp(zetaci*ln_qtt0);
+	vlim_t  = vlim*exp((zetaci-avs)*ln_qtt0);
+	vces_t  = vces*(1+alces*dT);
+	t0_t    = t0*(1+alt0*dT+kt0*dT*dT);
+	thcs_t  = thcs*exp((zetaci-1)*ln_qtt0);
+	zetatef = zetabet-zetact-0.5;
+	dvg     = vgb-vge;
+	tef0_t  = tef0*exp(zetatef*ln_qtt0-dvg/VT*(qtt0-1));
+	rbx_t   = rbx*exp(zetarbx*ln_qtt0);
+	rcx_t   = rcx*exp(zetarcx*ln_qtt0);
+	rbi0_t  = rbi0*exp(zetarbi*ln_qtt0);
+	re_t    = re*exp(zetare*ln_qtt0);
+	eavl_t  = eavl*exp(aleav*dT);
+	kavl_t  = kavl*exp(alkav*dT);
+
+
+
+
+
+
+
+
+
+
+
+	 
+	if (cjcx0_t==0) begin 
+		cjci0_t_ii	= cjci0_t*fbc;             
+		qjcxi		= 0;
+		cjcx0_t_i	= cjci0_t*(1-fbc);         
+		 if(vptci <  1.0e2) begin         if(cjcx0_t_i > 0.0) begin	zr	= zci/4.0;	vp	= vptci-vdci_t;	vf	= vdci_t*(1.0-exp(-ln(2.4)/zci));	cmax	= 2.4*cjcx0_t_i;	cr	= cjcx0_t_i*exp((zci-zr)*ln(vdci_t/vptci));	a	= VT;	ve	= (vf-Vbci)/a;	if (ve <=  80.0) begin		ex1	= exp(ve);		ee1	= 1.0+ex1;		vj1	= vf-a*ln(ee1);	end else begin		vj1	= Vbci;	end	a	= 0.1*vp+4.0*VT;	vr	= (vp+vj1)/a;	if (vr <=  80.0) begin		ex1	= exp(vr);		ee1	= 1.0+ex1;		vj2	= -vp+a*ln(ee1);	end else begin		vj2	= vj1;	end	vj4	= Vbci-vj1;	ez	= 1.0-zci;	ezr	= 1.0-zr;	vdj1	= ln(1.0-vj1/vdci_t);	vdj2	= ln(1.0-vj2/vdci_t);	qj1	= cjcx0_t_i*(1.0-exp(vdj2*ez))/ez;	qj2	= cr*(1.0-exp(vdj1*ezr))/ezr;	qj3	= cr*(1.0-exp(vdj2*ezr))/ezr;	qjcx	= (qj1+qj2-qj3)*vdci_t+cmax*vj4;  end else begin  	qjcx	= 0.0;  end    end else begin         if(cjcx0_t_i > 0.0) begin      vf	= vdci_t*(1.0-exp(-ln(2.4)/zci));      xvf	= (vf-Vbci)/VT;      xvf2	= sqrt(xvf*xvf+1.921812);      v_j	= vf-VT*(xvf+xvf2)*0.5;      x		= 1.0-zci;      y		= 1.0-exp(x*ln(1.0-v_j/vdci_t));      qjcx	= cjcx0_t_i*vdci_t*y/x+2.4*cjcx0_t_i*(Vbci-v_j);  end else begin      qjcx	= 0.0;  end    end
+	end else begin  
+		cjci0_t_ii	= cjci0_t;                 
+		cjcx0_t_ii	= cjcx0_t*fbc;
+		 if(vptcx <  1.0e2) begin         if(cjcx0_t_ii > 0.0) begin	zr	= zcx/4.0;	vp	= vptcx-vdcx_t;	vf	= vdcx_t*(1.0-exp(-ln(2.4)/zcx));	cmax	= 2.4*cjcx0_t_ii;	cr	= cjcx0_t_ii*exp((zcx-zr)*ln(vdcx_t/vptcx));	a	= VT;	ve	= (vf-Vbici)/a;	if (ve <=  80.0) begin		ex1	= exp(ve);		ee1	= 1.0+ex1;		vj1	= vf-a*ln(ee1);	end else begin		vj1	= Vbici;	end	a	= 0.1*vp+4.0*VT;	vr	= (vp+vj1)/a;	if (vr <=  80.0) begin		ex1	= exp(vr);		ee1	= 1.0+ex1;		vj2	= -vp+a*ln(ee1);	end else begin		vj2	= vj1;	end	vj4	= Vbici-vj1;	ez	= 1.0-zcx;	ezr	= 1.0-zr;	vdj1	= ln(1.0-vj1/vdcx_t);	vdj2	= ln(1.0-vj2/vdcx_t);	qj1	= cjcx0_t_ii*(1.0-exp(vdj2*ez))/ez;	qj2	= cr*(1.0-exp(vdj1*ezr))/ezr;	qj3	= cr*(1.0-exp(vdj2*ezr))/ezr;	qjcxi	= (qj1+qj2-qj3)*vdcx_t+cmax*vj4;  end else begin  	qjcxi	= 0.0;  end    end else begin         if(cjcx0_t_ii > 0.0) begin      vf	= vdcx_t*(1.0-exp(-ln(2.4)/zcx));      xvf	= (vf-Vbici)/VT;      xvf2	= sqrt(xvf*xvf+1.921812);      v_j	= vf-VT*(xvf+xvf2)*0.5;      x		= 1.0-zcx;      y		= 1.0-exp(x*ln(1.0-v_j/vdcx_t));      qjcxi	= cjcx0_t_ii*vdcx_t*y/x+2.4*cjcx0_t_ii*(Vbici-v_j);  end else begin      qjcxi	= 0.0;  end    end
+		cjcx0_t_i	= cjcx0_t*(1-fbc);         
+		 if(vptcx <  1.0e2) begin         if(cjcx0_t_i > 0.0) begin	zr	= zcx/4.0;	vp	= vptcx-vdcx_t;	vf	= vdcx_t*(1.0-exp(-ln(2.4)/zcx));	cmax	= 2.4*cjcx0_t_i;	cr	= cjcx0_t_i*exp((zcx-zr)*ln(vdcx_t/vptcx));	a	= VT;	ve	= (vf-Vbci)/a;	if (ve <=  80.0) begin		ex1	= exp(ve);		ee1	= 1.0+ex1;		vj1	= vf-a*ln(ee1);	end else begin		vj1	= Vbci;	end	a	= 0.1*vp+4.0*VT;	vr	= (vp+vj1)/a;	if (vr <=  80.0) begin		ex1	= exp(vr);		ee1	= 1.0+ex1;		vj2	= -vp+a*ln(ee1);	end else begin		vj2	= vj1;	end	vj4	= Vbci-vj1;	ez	= 1.0-zcx;	ezr	= 1.0-zr;	vdj1	= ln(1.0-vj1/vdcx_t);	vdj2	= ln(1.0-vj2/vdcx_t);	qj1	= cjcx0_t_i*(1.0-exp(vdj2*ez))/ez;	qj2	= cr*(1.0-exp(vdj1*ezr))/ezr;	qj3	= cr*(1.0-exp(vdj2*ezr))/ezr;	qjcx	= (qj1+qj2-qj3)*vdcx_t+cmax*vj4;  end else begin  	qjcx	= 0.0;  end    end else begin         if(cjcx0_t_i > 0.0) begin      vf	= vdcx_t*(1.0-exp(-ln(2.4)/zcx));      xvf	= (vf-Vbci)/VT;      xvf2	= sqrt(xvf*xvf+1.921812);      v_j	= vf-VT*(xvf+xvf2)*0.5;      x		= 1.0-zcx;      y		= 1.0-exp(x*ln(1.0-v_j/vdcx_t));      qjcx	= cjcx0_t_i*vdcx_t*y/x+2.4*cjcx0_t_i*(Vbci-v_j);  end else begin      qjcx	= 0.0;  end    end
+	end
+	 if(vptci <  1.0e2) begin         if(cjci0_t_ii > 0.0) begin	zr	= zci/4.0;	vp	= vptci-vdci_t;	vf	= vdci_t*(1.0-exp(-ln(2.4)/zci));	cmax	= 2.4*cjci0_t_ii;	cr	= cjci0_t_ii*exp((zci-zr)*ln(vdci_t/vptci));	a	= VT;	ve	= (vf-Vbici)/a;	if (ve <=  80.0) begin		ex1	= exp(ve);		ee1	= 1.0+ex1;		vj1	= vf-a*ln(ee1);	end else begin		vj1	= Vbici;	end	a	= 0.1*vp+4.0*VT;	vr	= (vp+vj1)/a;	if (vr <=  80.0) begin		ex1	= exp(vr);		ee1	= 1.0+ex1;		vj2	= -vp+a*ln(ee1);	end else begin		vj2	= vj1;	end	vj4	= Vbici-vj1;	ez	= 1.0-zci;	ezr	= 1.0-zr;	vdj1	= ln(1.0-vj1/vdci_t);	vdj2	= ln(1.0-vj2/vdci_t);	qj1	= cjci0_t_ii*(1.0-exp(vdj2*ez))/ez;	qj2	= cr*(1.0-exp(vdj1*ezr))/ezr;	qj3	= cr*(1.0-exp(vdj2*ezr))/ezr;	qjci	= (qj1+qj2-qj3)*vdci_t+cmax*vj4;  end else begin  	qjci	= 0.0;  end    end else begin         if(cjci0_t_ii > 0.0) begin      vf	= vdci_t*(1.0-exp(-ln(2.4)/zci));      xvf	= (vf-Vbici)/VT;      xvf2	= sqrt(xvf*xvf+1.921812);      v_j	= vf-VT*(xvf+xvf2)*0.5;      x		= 1.0-zci;      y		= 1.0-exp(x*ln(1.0-v_j/vdci_t));      qjci	= cjci0_t_ii*vdci_t*y/x+2.4*cjci0_t_ii*(Vbici-v_j);  end else begin      qjci	= 0.0;  end    end
+	qjcii	= qjci+qjcxi;
+		
+
+ 
+	
+	 if(cjci0_t_ii > 0.0) begin      vf	= vdci_t*(1.0-exp(-ln(2.4)/zci));      xvf	= (vf-Vbici)/VT;      xvf2	= sqrt(xvf*xvf+1.921812);      v_j	= vf-VT*(xvf+xvf2)*0.5;      dvj	= 0.5*(xvf+xvf2)/xvf2;      cjcii	= cjci0_t_ii*exp(-zci*ln(1-v_j/vdci_t))*dvj+2.4*cjci0_t_ii*(1-dvj);  end else begin      cjcii	= 0.0;  end
+	
+
+
+
+	 if(cje0_t > 0.0) begin      vf	= vde_t*(1.0-exp(-ln(aje_t)/ze));      xvf	= (vf-Vbiei)/VT;      xvf2	= sqrt(xvf*xvf+1.921812);      v_j	= vf-VT*(xvf+xvf2)*0.5;      x		= 1.0-ze;      y		= 1.0-exp(x*ln(1.0-v_j/vde_t));      qjei	= cje0_t*vde_t*y/x+aje_t*cje0_t*(Vbiei-v_j);  end else begin      qjei	= 0.0;  end
+	cjei	= ddx(qjei,V(bi));
+	cjei_i	= cjei; 
+
+
+	vc	= Vciei-vces_t;
+	uvc	= vc/VT-1;
+	vceff	= VT*(1+0.5*(uvc+sqrt(uvc*uvc+1.921812)));	
+	x	= (vceff-vlim_t)/vpt;
+	ick	= vceff*(1+0.5*(x+sqrt(x*x+1e-3)))/rci0_t/sqrt(1+vceff*vceff/vlim_t/vlim_t);
+
+
+
+
+	cc	= cjci0_t_ii/cjcii;
+	qjci	= qjci/cjci0_t_ii; 
+	qj_2	= (1+qjci/vef)/2;
+
+
+	tf0	= t0_t+dt0h*(cc-1)+tbvl*(1/cc-1);
+
+
+	ickf	= iqf;
+	ickr	= iqr;
+
+
+	arg1 = Vbiei/(mcf*VT);
+	 if(arg1 > 80) begin	le1 = (1 + ((arg1) - 80));        arg1 = 80;  end else begin	le1=1;  end  le1 = le1*limexp(arg1);
+	itfi=is_t*le1;
+	
+	arg2 = Vbici/(mcr*VT);
+	 if(arg2 > 80) begin	le2 = (1 + ((arg2) - 80));        arg2 = 80;  end else begin	le2=1;  end  le2 = le2*limexp(arg2);
+	itri=is_t*le2;
+
+
+
+	qm	= (itfi/ickf+itri/ickr);
+
+
+	qpt	= qj_2+sqrt((qj_2)*(qj_2)+qm);
+	if (qpt<=1e-20) begin
+		qpt=1e-20;
+	end	
+
+
+	itfl	= itfi/qpt; 
+	itrl	= itri/qpt;
+
+
+
+	if (itfl<=1e-20) begin
+		itfl	= 1e-20;
+	end
+	al	= 1-ick/itfl;
+	s3l	= sqrt(al*al+ahc);
+	wl	= (al+s3l)/(1+sqrt(1+ahc));
+	d_qfh	= (wl*wl+tfh*itfl/ick)*itfl/iqfh;
+	
+
+	facl	= 1/(1+d_qfh/qpt);
+	itf	= itfl*facl;
+	itr	= itrl*facl;
+	if (itf<=1e-20) begin
+		itf	= 1e-20;
+	end
+	it	= itf-itr;
+
+
+
+
+	qf0	= tf0*itf;
+
+
+	a	= 1-ick/itf;
+	s3	= sqrt(a*a+ahc);
+	w	= (a+s3)/(1+sqrt(1+ahc));
+	tww	= thcs_t*w*w;
+	dqfh	= tww*itf;
+	dtfh	= tww*(1+2*ick/itf/s3);
+ 
+
+	dtef	= tef0_t*exp(gte*ln(itf/ick));
+	dqef	= dtef*itf/(gte+1.0);
+ 
+
+	qf	= qf0+dqef+dqfh;
+	tf	= tf0+dtfh+dtef;
+ 
+
+	qr	= tr*itr;
+
+
+
+
+	 DIOY	= Vbiei/(mbe*VT);	if (ibes > 0.0) begin		if (DIOY > 80) begin			le 	= (1 + ((DIOY) - 80));			DIOY	= 80;		end else begin			le	= 1;		end  		le 	= le*limexp(DIOY);		ibe	= ibes_t*(le-1.0);		if(DIOY <= -14.0) begin			ibe	= -ibes_t;		end	end else begin		ibe	= 0.0;        end
+	 DIOY	= Vbiei/(mre*VT);	if (ires > 0.0) begin		if (DIOY > 80) begin			le 	= (1 + ((DIOY) - 80));			DIOY	= 80;		end else begin			le	= 1;		end  		le 	= le*limexp(DIOY);		ire	= ires_t*(le-1.0);		if(DIOY <= -14.0) begin			ire	= -ires_t;		end	end else begin		ire	= 0.0;        end
+	ijbe	= ibe+ire;
+
+
+	 DIOY	= Vbici/(mbc*VT);	if (ibcs > 0.0) begin		if (DIOY > 80) begin			le 	= (1 + ((DIOY) - 80));			DIOY	= 80;		end else begin			le	= 1;		end  		le 	= le*limexp(DIOY);		ijbc	= ibcs_t*(le-1.0);		if(DIOY <= -14.0) begin			ijbc	= -ibcs_t;		end	end else begin		ijbc	= 0.0;        end
+
+
+	ibi	= ijbe+ijbc;
+
+
+
+	if (Vbici < 0) begin : HICAVL
+		v_bord	= eavl_t*vdci_t;
+		if (vdci_t-Vbici>v_bord) begin
+			a_iavl	= kavl_t/vdci_t*exp(-cc);
+			iavl	= itf*a_iavl*(v_bord+(1+cc)*(vdci_t-Vbici-v_bord));
+		end else begin
+			lncc	= ln(1/cc);	      
+			iavl	= kavl_t*itf*exp(-1/zci*lncc-eavl_t*exp((1/zci-1)*lncc));
+		end
+	end else begin
+		iavl	= 0;
+	end
+
+
+
+
+
+
+	if(rbi0_t > 0.0) begin : HICRBI
+		
+		qje	= qjei/cje0_t;
+		Qz_nom	= 1+qje/vr0e+qjci/vr0c+itf/ickf+itr/ickr;
+		fQz	= 0.5*(Qz_nom+sqrt(Qz_nom*Qz_nom+0.01));;
+		rbi	= rbi0_t/fQz;
+		
+		if (ibi > 0.0) begin
+			eta	= fgeo*rbi*ibi/VT;
+			if (eta < 1e-6) begin
+				rbi	= rbi*(1-0.5*eta);
+			end else begin
+				rbi	= rbi*ln(eta+1)/eta;
+			end
+		end
+	end else begin
+		rbi	= 0.0;
+	end
+	
+	rb	= rbi+rbx_t;
+
+
+ 	if(itss > 0.0) begin : Sub_Transfer
+ 		HSUM	= msf*VT;
+        	HSa	= limexp(Vbci/HSUM);
+        	HSb	= limexp(Vsci/HSUM);
+        	HSI_Tsu	= itss_t*(HSa-HSb);
+      	end else begin
+        	HSI_Tsu	= 0.0;
+      	end
+
+
+
+	 DIOY	= Vsci/(msc*VT);	if (iscs > 0.0) begin		if (DIOY > 80) begin			le 	= (1 + ((DIOY) - 80));			DIOY	= 80;		end else begin			le	= 1;		end  		le 	= le*limexp(DIOY);		ijsc	= iscs_t*(le-1.0);		if(DIOY <= -14.0) begin			ijsc	= -iscs_t;		end	end else begin		ijsc	= 0.0;        end
+
+	 if(vpts <  1.0e2) begin         if(cjs0_t > 0.0) begin	zr	= zs/4.0;	vp	= vpts-vds_t;	vf	= vds_t*(1.0-exp(-ln(2.4)/zs));	cmax	= 2.4*cjs0_t;	cr	= cjs0_t*exp((zs-zr)*ln(vds_t/vpts));	a	= VT;	ve	= (vf-Vsci)/a;	if (ve <=  80.0) begin		ex1	= exp(ve);		ee1	= 1.0+ex1;		vj1	= vf-a*ln(ee1);	end else begin		vj1	= Vsci;	end	a	= 0.1*vp+4.0*VT;	vr	= (vp+vj1)/a;	if (vr <=  80.0) begin		ex1	= exp(vr);		ee1	= 1.0+ex1;		vj2	= -vp+a*ln(ee1);	end else begin		vj2	= vj1;	end	vj4	= Vsci-vj1;	ez	= 1.0-zs;	ezr	= 1.0-zr;	vdj1	= ln(1.0-vj1/vds_t);	vdj2	= ln(1.0-vj2/vds_t);	qj1	= cjs0_t*(1.0-exp(vdj2*ez))/ez;	qj2	= cr*(1.0-exp(vdj1*ezr))/ezr;	qj3	= cr*(1.0-exp(vdj2*ezr))/ezr;	qjs	= (qj1+qj2-qj3)*vds_t+cmax*vj4;  end else begin  	qjs	= 0.0;  end    end else begin         if(cjs0_t > 0.0) begin      vf	= vds_t*(1.0-exp(-ln(2.4)/zs));      xvf	= (vf-Vsci)/VT;      xvf2	= sqrt(xvf*xvf+1.921812);      v_j	= vf-VT*(xvf+xvf2)*0.5;      x		= 1.0-zs;      y		= 1.0-exp(x*ln(1.0-v_j/vds_t));      qjs	= cjs0_t*vds_t*y/x+2.4*cjs0_t*(Vsci-v_j);  end else begin      qjs	= 0.0;  end    end
+
+
+
+	if (flsh == 1 && rth >=  0.001) begin
+		pterm	= it*Vciei+iavl*(vdci_t-Vbici); 
+	end else if (flsh == 2 && rth >=  0.001) begin
+		pterm	=  Vciei*it + (vdci_t-Vbici)*iavl + ijbe*Vbiei + ijbc*Vbici + ijsc*Vsci;
+		if (rb >=  0.001) begin
+		pterm	= pterm + Vbbi*Vbbi/rb;
+		end
+		if (re_t >=  0.001) begin
+		pterm	= pterm + Veie*Veie/re_t;
+		end
+		if (rcx_t >=  0.001) begin
+		pterm	= pterm + Vcic*Vcic/rcx_t;
+		end
+	end
+
+
+
+
+	
+	Ibici = ijbc - iavl;
+
+	Qbci  = cbcpar*Vbci;
+	Qbe   = cbepar*Vbe;
+	Qbici = qjcii+qr;
+	Qbiei = qjei+qf;
+
+	ijsc  = HICUMtype*ijsc;
+	qjs   = HICUMtype*qjs;
+	qjcx  = HICUMtype*qjcx; 
+	Qbci  = HICUMtype*Qbci;
+	Qbe   = HICUMtype*Qbe;
+	
+	Ibici = HICUMtype*Ibici;
+	Qbici = HICUMtype*Qbici;
+	ijbe  = HICUMtype*ijbe;
+	Qbiei = HICUMtype*Qbiei; 
+	it    = HICUMtype*it;
+	
+
+
+
+	I(br_biei)	<+ _circuit_gmin*V(br_biei);
+	I(br_bici)	<+ _circuit_gmin*V(br_bici);
+		
+	I(br_bs) 		<+ HSI_Tsu;
+	I(br_sci)		<+ ijsc	+ _circuit_gmin*V(br_sci);	
+	I(br_sci)		<+ ddt(qjs);
+	I(br_bci)		<+ ddt(qjcx);
+	I(br_bci)	  	<+ ddt(Qbci);
+	I(br_be)		<+ ddt(Qbe);
+	if (re >=  0.001) begin
+	I(br_eie_i)	  	<+ Veie/re_t + _circuit_gmin*V(br_eie_i);
+	end else begin
+	V(br_eie_v)		<+ 0.0;
+	end
+	if (rcx >=  0.001) begin
+	I(br_cic_i)	  	<+ Vcic/rcx_t + _circuit_gmin*V(br_cic_i);
+	end else begin
+	V(br_cic_v)		<+ 0.0;
+	end
+	if (rbi0 >=  0.001 || rbx >=  0.001) begin
+	I(br_bbi_i)	  	<+ Vbbi/rb + _circuit_gmin*V(br_bbi_i);	
+	end else begin
+	V(br_bbi_v)		<+ 0.0;
+	end
+	I(br_bici)	<+ Ibici + _circuit_gmin*V(br_bici);		
+	I(br_bici)	<+ ddt(Qbici);
+	I(br_biei)	<+ ijbe + _circuit_gmin*V(br_biei);		
+	I(br_biei)	<+ ddt(Qbiei);
+	I(br_ciei)	<+ it					 (*spectre:pwl_fwd_current="IS*exp(25.0)" spectre:pwl_fwd_node="bi" spectre:pwl_fwd_cond="IS*exp(25.0)/0.025"   spectre:pwl_rev_current="IMAX" spectre:pwl_rev_cond="IMAX/0.025" spectre:pwl_passive="1e10"*);
+	
+	
+	
+	if(flsh == 0 || rth <  0.001) begin
+		I(br_sht) 	<+ Vrth/ 0.001;
+	end else begin
+		I(br_sht) 	<+ Vrth/rth-pterm + _circuit_gmin*V(br_sht);
+		I(br_sht) 	<+ ddt(cth*Vrth);
+	end
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+	fourkt 	= 4.0 *  1.3806503e-23 * Tdev;
+	if(rbx >=  0.001 || rbi0 >=  0.001) begin
+		I(br_bbi_i)		<+ white_noise(fourkt/rb);
+	end
+	if(rcx >=  0.001) begin
+		I(br_cic_i)		<+ white_noise(fourkt/rcx_t);
+	end
+	if(re >=  0.001) begin
+		I(br_eie_i)		<+ white_noise(fourkt/re_t);
+	end
+
+
+	twoq	= 2.0 *  1.602176462e-19;
+	I(br_biei)	<+ white_noise(twoq*ijbe);
+	I(br_ciei)	<+ white_noise(twoq*it);
+   
+
+	flicker_Pwr	= kf*pow(ijbe,af);
+	I(br_biei)	<+ flicker_noise(flicker_Pwr,1.0);
+
+end  
+endmodule

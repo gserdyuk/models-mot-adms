@@ -1,0 +1,37 @@
+
+
+TARGET = psp102
+$(TARGET):
+
+#include Makefile.am
+
+CFILES = \
+psp102acld.c \
+psp102ask.c \
+psp102.c \
+psp102del.c \
+psp102dest.c \
+psp102guesstopology.c \
+psp102init.c \
+psp102load.c \
+psp102mask.c \
+psp102mdel.c \
+psp102mpar.c \
+psp102noise.c \
+psp102par.c \
+psp102pzld.c \
+psp102setup.c \
+psp102temp.c \
+psp102trunc.c \
+
+HDRS   = \
+discipline.h \
+psp102defs.h \
+psp102ext.h \
+psp102init.h \
+psp102itf.h \
+
+
+SPICE_VERSION = NGSPICE_20
+include ../Make2
+

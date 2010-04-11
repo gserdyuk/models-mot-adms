@@ -1,0 +1,20 @@
+* test circuit ekv
+*.options drop_spice_comments dollar_as_spice_comment
+
+.include ../ekv26_0u5.noc.par
+*MCKT 1 2 3 4 nekv26eval W = 2e-05 L = 2e-05
+MCKT 1 2 3 4 nmos W = 2e-05 L = 2e-05
+
+* DEF SOURCES
+VG 2 0 DC 0
+VS 3 0 DC 0
+VD 1 0 DC 0.05
+VB 4 0 DC 0
+
+* END SOURCES
+
+.DC VG 0 2.51 0.1 VB 0 -1.05 -0.5
+.PRINT DC v(2)  v(4)  I(VD)
+
+
+.end

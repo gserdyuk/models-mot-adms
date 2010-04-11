@@ -1,0 +1,2 @@
+#!/bin/bash
+./myngspice -b vce_1_1.sp >vce_1_1.sp.out

@@ -1,0 +1,34 @@
+HOW TO ADD MODEL TO ADMST suite
+
+I. General Sequence
+-------------------
+
+1. Add directory and admsva subdirectory
+   for example "rtest"
+
+2) Put *.va file in admsva subdirectory
+   for example admsva/rtest.va
+
+3) add section into admst/ngspiceVersion.xml
+   for example - look at section 
+   <admst:when test="[name='rtest']">
+   ...
+   </admst:when>
+
+4) run buildMakefile <directory>
+   for example 
+   >./buildMakefile rtest
+   
+5) manually add/edit file wrapper.h, change correspondent names 
+  (look at rtest/wrapper.h)
+ 
+6) make :
+   >make -f Makefile.gnucap
+  
+7) install resulting library wherever you want to use with gnjucap, 
+   load it as usual library
+   
+II. Example
+-----------
+rtest is an example of simplest module as it added to suite
+

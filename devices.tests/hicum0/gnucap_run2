@@ -1,0 +1,3 @@
+#!/bin/bash
+GNUCAP=../../../src/gnucap
+$GNUCAP -a ../../hicum0/hicum0.so -b hic0_out.gckt >hic0_out.gckt.out

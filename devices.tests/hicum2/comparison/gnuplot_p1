@@ -1,0 +1,10 @@
+#!/usr/bin/gnuplot
+set title "I base"
+plot "fg_vce_1_1.gckt.gnuplot" using 2:7 title "gnucap" , "fg_vce_1_1.sp.gnuplot" using 4:7 title "ngspice"
+pause(3) 
+set title "I collector"
+plot "fg_vce_1_1.gckt.gnuplot" using 2:6 title "gnucap" , "fg_vce_1_1.sp.gnuplot" using 4:6  title "ngspice"
+pause(3) 
+set title "I substrate"
+plot "fg_vce_1_1.gckt.gnuplot" using 2:8 title "gnucap" , "fg_vce_1_1.sp.gnuplot" using 4:8  title "ngspice"
+pause(3)

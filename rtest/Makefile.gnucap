@@ -1,0 +1,38 @@
+
+
+TARGET = rtest
+$(TARGET):
+
+include Makefile.am
+
+CFILES = \
+rtestacld.c \
+rtestask.c \
+rtest.c \
+rtestdel.c \
+rtestdest.c \
+rtestguesstopology.c \
+rtestinit.c \
+rtestload.c \
+rtestmask.c \
+rtestmdel.c \
+rtestmpar.c \
+rtestnoise.c \
+rtestpar.c \
+rtestpzld.c \
+rtestsetup.c \
+rtesttemp.c \
+rtesttrunc.c \
+
+HDRS   = \
+discipline.h \
+rtestdefs.h \
+rtestext.h \
+rtestinit.h \
+rtestitf.h \
+wrapper.h \
+
+
+SPICE_VERSION = NGSPICE_20
+include ../Make2
+

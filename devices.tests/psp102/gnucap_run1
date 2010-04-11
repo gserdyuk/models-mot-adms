@@ -1,0 +1,3 @@
+#!/bin/bash
+GNUCAP=../../../src/gnucap
+$GNUCAP -a ../../psp102/psp102.so -b psp102-test.gckt >psp102-test.gckt.out

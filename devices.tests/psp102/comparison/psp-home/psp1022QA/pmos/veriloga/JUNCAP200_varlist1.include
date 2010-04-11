@@ -1,0 +1,60 @@
+//======================================================================================
+//======================================================================================
+// Filename: JUNCAP200_varlist1.include
+//======================================================================================
+//======================================================================================
+//
+//  (c) Copyright 2007, All Rights Reserved, NXP Semiconductors
+//
+//
+//  Version: 102.2 (PSP), 200.3 (JUNCAP), October 2007
+//
+//======================================================================================
+//======================================================================================
+//
+// Further information can be found in the file readme.txt
+//
+    // declaration of clipped parameters
+    real TRJ_i, IMAX_i;
+    real CJORBOT_i, CJORSTI_i, CJORGAT_i, VBIRBOT_i, VBIRSTI_i, VBIRGAT_i;
+    real PBOT_i, PSTI_i, PGAT_i;
+    real IDSATRBOT_i, IDSATRSTI_i, IDSATRGAT_i, XJUNSTI_i, XJUNGAT_i;
+    real CSRHBOT_i, CSRHSTI_i, CSRHGAT_i, CTATBOT_i, CTATSTI_i, CTATGAT_i;
+    real MEFFTATBOT_i, MEFFTATSTI_i, MEFFTATGAT_i;
+    real CBBTBOT_i, CBBTSTI_i, CBBTGAT_i;
+    real VBRBOT_i, VBRSTI_i, VBRGAT_i, PBRBOT_i, PBRSTI_i, PBRGAT_i;
+    real SWJUNEXP_i, VJUNREF_i, FJUNQ_i;
+
+    // declaration of variables calculated outside macro "juncapfunction", voltage-independent part
+    real tkr, tkd, auxt, KBOL_over_QELE, phitr, phitrinv, phitd, phitdinv;
+    real deltaphigr, phigrbot, phigrsti, phigrgat, deltaphigd, phigdbot, phigdsti, phigdgat;
+    real ftdbot, ftdsti, ftdgat, idsatbot, idsatsti, idsatgat;
+    real ubibot, ubisti, ubigat, vbibot, vbisti, vbigat; 
+    real vbibot2, vbisti2, vbigat2, vbibot2r, vbisti2r, vbigat2r;
+    real vbiinvbot, vbiinvsti, vbiinvgat;
+    real one_minus_PBOT, one_minus_PSTI, one_minus_PGAT;
+    real one_over_one_minus_PBOT, one_over_one_minus_PSTI, one_over_one_minus_PGAT;
+    real cjobot, cjosti, cjogat;
+    real qprefbot, qprefsti, qprefgat, qpref2bot, qpref2sti, qpref2gat;
+    real wdepnulrbot, wdepnulrsti, wdepnulrgat, wdepnulrinvbot, wdepnulrinvsti, wdepnulrinvgat;
+    real VBIRBOTinv, VBIRSTIinv, VBIRGATinv;
+    real perfc, berfc, cerfc;
+    real deltaEbot, deltaEsti, deltaEgat, atatbot, atatsti, atatgat;
+    real btatpartbot, btatpartsti, btatpartgat;
+    real fbbtbot, fbbtsti, fbbtgat;
+    real fstopbot, fstopsti, fstopgat, VBRinvbot, VBRinvsti, VBRinvgat;
+    real slopebot, slopesti, slopegat;
+    real vmaxbot, vmaxsti, vmaxgat;
+
+    // JUNCAP-Express variables
+    real I1, I2, I3, I4, I5;
+    real I1_cor, I2_cor, I3_cor, I4_cor, I5_cor;
+    real V1, V2, V3, V4, V5;
+    real alphaje, m0_rev, mcor_rev;
+    real tt0, tt1, tt2, tm0, tm1;
+    real tmpv, vjv;
+    real FRACNA, FRACNB, FRACI;
+    real qpreftot;
+    real ijunfor1, ijunfor2, ijunrev;
+
+    `LocalGlobalVars

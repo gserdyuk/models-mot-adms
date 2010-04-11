@@ -1,0 +1,50 @@
+//======================================================================================
+//======================================================================================
+// Filename: psp102b_nqs.va
+//======================================================================================
+//======================================================================================
+//
+//  (c) Copyright 2007, All Rights Reserved, NXP Semiconductors
+//
+//
+//  Version: 102.2, October 2007
+//
+//======================================================================================
+//======================================================================================
+//
+// Further information can be found in the file readme.txt
+//
+
+`define NQSmodel true
+
+`include "discipline.h"
+
+`include "SIMKIT_macrodefs.include"
+
+`include "JUNCAP200_macrodefs.include"
+
+`include "PSP102_macrodefs.include"
+
+`include "PSP102_nqs_macrodefs.include"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//  PSP-NQS global model code (binning)
+//
+/////////////////////////////////////////////////////////////////////////////
+
+`define Binning true
+
+module PSPNQS102BVA(D, G, S, B)
+
+`P(
+  info = "PSP NQS MOSFET Model"
+  version = `VERS
+  revision = `VREV
+  simkit:name = "pspnqs1021"
+  simkit:desc = "pspnqs_1021"
+);
+
+`include "PSP102_module.include"
+
+endmodule

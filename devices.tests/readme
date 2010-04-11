@@ -1,0 +1,21 @@
+Tests readme
+G. Serdyuk
+
+1) Coverage
+these tests do not cover models in complete way.
+This is matter of future.
+Currently these tests rather demonstrate that transformed models 
+are compiled and can be executed in some reasonable circuit. 
+Results were compared to NGSPICE results.
+
+2) Tests compared
+ekv 	- ngspice coinside with gnucap
+hicum0	- same
+hicum2  - same
+mextram	- same
+psp102  - differ
+
+3) to run tests in each directory:
+run_tests 		- runs test
+compare_results		- compares test results to golden files
+clean_tests		- clean up test resulst

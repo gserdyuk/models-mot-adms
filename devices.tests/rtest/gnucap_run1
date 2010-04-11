@@ -1,0 +1,3 @@
+#!/bin/bash
+GNUCAP=../../../src/gnucap
+$GNUCAP -a ../../rtest/rtest.so -b rtest-test.gckt >rtest-test.gckt.out

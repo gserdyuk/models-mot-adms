@@ -1,0 +1,5 @@
+#!/bin/bash
+GNUCAP=../../../src/gnucap
+NAME=vce_1_1.gckt
+
+$GNUCAP -a ../../mextram/mextram.so -b $NAME >$NAME.out

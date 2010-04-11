@@ -1,0 +1,37 @@
+
+
+TARGET = mextram
+$(TARGET):
+
+#include Makefile.am
+
+CFILES = \
+mextramacld.c \
+mextramask.c \
+mextram.c \
+mextramdel.c \
+mextramdest.c \
+mextramguesstopology.c \
+mextraminit.c \
+mextramload.c \
+mextrammask.c \
+mextrammdel.c \
+mextrammpar.c \
+mextramnoise.c \
+mextrampar.c \
+mextrampzld.c \
+mextramsetup.c \
+mextramtemp.c \
+mextramtrunc.c \
+
+HDRS   = \
+discipline.h \
+mextramdefs.h \
+mextramext.h \
+mextraminit.h \
+mextramitf.h \
+
+
+SPICE_VERSION = NGSPICE_20
+include ../Make2
+

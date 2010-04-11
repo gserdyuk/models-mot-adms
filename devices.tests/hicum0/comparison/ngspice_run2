@@ -1,0 +1,2 @@
+#!/bin/bash
+./myngspice -b hic0_out.sp >hic0_out.sp.out-1

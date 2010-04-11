@@ -1,0 +1,7 @@
+#!/bin/bash
+source ../compare_results.inc
+
+for FILE in `ls *.gckt.out`; do
+  mydiff $FILE ./golden >>../diffs
+  printresult1 "test rtest $FILE" $?
+done

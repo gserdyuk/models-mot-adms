@@ -1,0 +1,5 @@
+test results for psp102
+
+IMPORTANT!
+results of ngspice and gnucap are different - need to check that additionally
+when results will same - out *.gckt.out file into "golden" directory

@@ -1,0 +1,15 @@
+#!/usr/bin/gnuplot
+set title "V base"
+
+plot "hic0_out.sp.gnuplot" using 3:4 title "ngspice", "hic0_out.gckt.gnuplot" using 2:3 title "gnucap"
+pause(5)
+
+set title "I(vc)"
+
+plot "hic0_out.sp.gnuplot" using 3:5 title "ngspice", "hic0_out.gckt.gnuplot" using 2:4 title "gnucap"
+pause(5)
+
+set title "V(dt)"
+
+plot "hic0_out.sp.gnuplot" using 3:6 title "ngspice", "hic0_out.gckt.gnuplot" using 2:5 title "gnucap"
+pause(5)
