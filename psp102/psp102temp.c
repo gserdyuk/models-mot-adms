@@ -1,6 +1,6 @@
 /***
 *** Interface: ngspice 1.0.0.0
- *** created by: admsXml-2.3.0 - Sun, 28 Feb 2010 22:30:49 ***/
+ *** created by: admsXml-2.3.0 - Mon, 12 Apr 2010 19:24:54 ***/
 
 
 #include "ngspice.h"
@@ -768,8 +768,8 @@ delLPS=((model->LVARO*(1.0+(model->LVARL*iL)))*(1.0+(model->LVARW*iW)));
 EXIT_IF_ISNAN(delLPS)
 delWOD=((model->WVARO*(1.0+(model->WVARL*iL)))*(1.0+(model->WVARW*iW)));
 EXIT_IF_ISNAN(delWOD)
-here->LE=((((L_i+delLPS)-(2.0*model->LAP))>1e-9)?((L_i+delLPS)-(2.0*model->LAP)):1e-9);
-EXIT_IF_ISNAN(here->LE)
+here->LE_LE=((((L_i+delLPS)-(2.0*model->LAP))>1e-9)?((L_i+delLPS)-(2.0*model->LAP)):1e-9);
+EXIT_IF_ISNAN(here->LE_LE)
 here->WE=((((W_i+delWOD)-(2.0*model->WOT))>1e-9)?((W_i+delWOD)-(2.0*model->WOT)):1e-9);
 EXIT_IF_ISNAN(here->WE)
 #if defined(_DYNAMIC)
@@ -786,7 +786,7 @@ EXIT_IF_ISNAN(Lcv)
 Wcv=((((W_i+delWOD)+model->DWQ)>1e-9)?((W_i+delWOD)+model->DWQ):1e-9);
 EXIT_IF_ISNAN(Wcv)
 #endif /*_DYNAMIC*/
-iLE=(LEN/here->LE);
+iLE=(LEN/here->LE_LE);
 EXIT_IF_ISNAN(iLE)
 iWE=(WEN/here->WE);
 EXIT_IF_ISNAN(iWE)
@@ -829,7 +829,7 @@ LPCKe=(model->LPCK_i*(((1.0+((model->LPCKW*iWE)*__logE_0))>1.0E-03)?(1.0+((model
 EXIT_IF_ISNAN(LPCKe)
 }
 if
-((here->LE>(2*LPCKe)))
+((here->LE_LE>(2*LPCKe)))
 {
 AA=7.5e10;
 EXIT_IF_ISNAN(AA)
@@ -851,7 +851,7 @@ _sqrt(__sqrt_0,(NSUB0e))
 EXIT_IF_ISNAN(__sqrt_0)
 _exp(__exp_1,((BB/AA)))
 EXIT_IF_ISNAN(__exp_1)
-_logE(__logE_2,((1+(((2*LPCKe)/here->LE)*(__exp_1-1)))))
+_logE(__logE_2,((1+(((2*LPCKe)/here->LE_LE)*(__exp_1-1)))))
 EXIT_IF_ISNAN(__logE_2)
 NSUB=(__sqrt_0+(AA*__logE_2));
 EXIT_IF_ISNAN(NSUB)
@@ -862,14 +862,14 @@ EXIT_IF_ISNAN(NSUB)
 else
 {
 if
-((here->LE>=LPCKe))
+((here->LE_LE>=LPCKe))
 {
-NSUB=(NSUB0e+((NPCKe*LPCKe)/here->LE));
+NSUB=(NSUB0e+((NPCKe*LPCKe)/here->LE_LE));
 EXIT_IF_ISNAN(NSUB)
 }
 else
 {
-NSUB=(NSUB0e+(NPCKe*(2-(here->LE/LPCKe))));
+NSUB=(NSUB0e+(NPCKe*(2-(here->LE_LE/LPCKe))));
 EXIT_IF_ISNAN(NSUB)
 }
 }
@@ -917,11 +917,11 @@ EXIT_IF_ISNAN(LP1e)
 {
 double __exp_0=0.0;
 double __exp_1=0.0;
-_exp(__exp_0,(((-here->LE)/LP1e)))
+_exp(__exp_0,(((-here->LE_LE)/LP1e)))
 EXIT_IF_ISNAN(__exp_0)
-_exp(__exp_1,(((-here->LE)/model->LP2_i)))
+_exp(__exp_1,(((-here->LE_LE)/model->LP2_i)))
 EXIT_IF_ISNAN(__exp_1)
-GPE=((1.0+(((FBET1e*LP1e)/here->LE)*(1.0-__exp_0)))+(((model->FBET2*model->LP2_i)/here->LE)*(1.0-__exp_1)));
+GPE=((1.0+(((FBET1e*LP1e)/here->LE_LE)*(1.0-__exp_0)))+(((model->FBET2*model->LP2_i)/here->LE_LE)*(1.0-__exp_1)));
 EXIT_IF_ISNAN(GPE)
 }
 GPE=((GPE>1e-15)?GPE:1e-15);
@@ -933,7 +933,7 @@ EXIT_IF_ISNAN(__logE_0)
 GWE=((1.0+(model->BETW1*iWE))+((model->BETW2*iWE)*__logE_0));
 EXIT_IF_ISNAN(GWE)
 }
-BETN=(((model->UO*here->WE)/(GPE*here->LE))*GWE);
+BETN=(((model->UO*here->WE)/(GPE*here->LE_LE))*GWE);
 EXIT_IF_ISNAN(BETN)
 STBET=(((model->STBETO*(1.0+(model->STBETL*iLE)))*(1.0+(model->STBETW*iWE)))*(1.0+((model->STBETLW*iLE)*iWE)));
 EXIT_IF_ISNAN(STBET)

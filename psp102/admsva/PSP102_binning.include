@@ -17,7 +17,7 @@
 
             // auxiliary variables
             iLEWE        = iLE * iWE;
-            iiLE         = LE / LEN;
+            iiLE         = LE_LE / LEN;
             iiWE         = WE / WEN;
             iiLEWE       = iiLE * iiWE;
             iiiLEWE      = iiWE / iiLE;

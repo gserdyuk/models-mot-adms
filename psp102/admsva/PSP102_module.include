@@ -467,7 +467,7 @@
     
     // Variables for geometrical scaling rules
     real    L_i, W_i, SA_i, SB_i;
-    real    LEN, WEN, iL, iW, delLPS, delWOD, LE, WE, iLE, iWE, Lcv, Wcv, LEcv, WEcv;
+    real    LEN, WEN, iL, iW, delLPS, delWOD, LE_LE, WE, iLE, iWE, Lcv, Wcv, LEcv, WEcv;
     
 `ifdef Binning
     // Auxiliary variables for binning-rules
@@ -863,13 +863,14 @@
             delLPS     = LVARO * (1.0 + LVARL * iL) * (1.0 + LVARW * iW);
             delWOD     = WVARO * (1.0 + WVARL * iL) * (1.0 + WVARW * iW);
 `endif // Binning
-            LE         = `CLIP_LOW(L_i + delLPS - 2.0 * LAP, 1e-9);
+// LE changed to LE_LE
+            LE_LE      = `CLIP_LOW(L_i + delLPS - 2.0 * LAP, 1e-9);
             WE         = `CLIP_LOW(W_i + delWOD - 2.0 * WOT, 1e-9);
             LEcv       = `CLIP_LOW(L_i + delLPS - 2.0 * LAP + DLQ, 1e-9);
             WEcv       = `CLIP_LOW(W_i + delWOD - 2.0 * WOT + DWQ, 1e-9);
             Lcv        = `CLIP_LOW(L_i + delLPS + DLQ, 1e-9);
             Wcv        = `CLIP_LOW(W_i + delWOD + DWQ, 1e-9);
-            iLE        = LEN / LE;
+            iLE        = LEN / LE_LE;
             iWE        = WEN / WE;
             juncapwidth= WE;
 
@@ -887,16 +888,16 @@
             NSUB0e     = NSUBO_i * `MAX(( 1.0 + NSUBW * iWE * ln( 1.0 + WE / WSEG_i )), 1.0E-03);
             NPCKe      = NPCK_i * `MAX(( 1.0 + NPCKW * iWE * ln( 1.0 + WE / WSEGP_i )), 1.0E-03);
             LPCKe      = LPCK_i * `MAX(( 1.0 + LPCKW * iWE * ln( 1.0 + WE / WSEGP_i )), 1.0E-03);
-            if (LE > (2 * LPCKe)) begin
+            if (LE_LE > (2 * LPCKe)) begin
                 AA         = 7.5e10;
                 BB         = sqrt(NSUB0e + 0.5 * NPCKe) - sqrt(NSUB0e);
-                NSUB       = sqrt(NSUB0e) + AA * ln(1 + 2 * LPCKe / LE * (exp(BB / AA) - 1));
+                NSUB       = sqrt(NSUB0e) + AA * ln(1 + 2 * LPCKe / LE_LE * (exp(BB / AA) - 1));
                 NSUB       = NSUB * NSUB;
             end else begin
-                if (LE >= LPCKe) begin
-                       NSUB       = NSUB0e + NPCKe * LPCKe / LE;
-                end else begin // LE < LPCK
-                       NSUB       = NSUB0e + NPCKe * (2 - LE / LPCKe);
+                if (LE_LE >= LPCKe) begin
+                       NSUB       = NSUB0e + NPCKe * LPCKe / LE_LE;
+                end else begin // LE_LE < LPCK
+                       NSUB       = NSUB0e + NPCKe * (2 - LE_LE / LPCKe);
                 end
             end
             NEFF       = NSUB * (1 - FOL1 * iLE - FOL2 * iLE * iLE);
@@ -916,10 +917,10 @@
             // Mobility parameters
             FBET1e     = FBET1 * (1.0 + FBET1W * iWE);
             LP1e       = LP1_i * `MAX(1.0 + LP1W * iWE, 1.0E-03);
-            GPE        = 1.0 + FBET1e * LP1e / LE * (1.0 - exp(-LE / LP1e)) + FBET2 * LP2_i / LE * (1.0 - exp(-LE / LP2_i));
+            GPE        = 1.0 + FBET1e * LP1e / LE_LE * (1.0 - exp(-LE_LE / LP1e)) + FBET2 * LP2_i / LE_LE * (1.0 - exp(-LE_LE / LP2_i));
             GPE        = `MAX(GPE, 1e-15);
             GWE        = 1.0 + BETW1 * iWE + BETW2 * iWE * ln(1.0 + WE / WBET_i);
-            BETN       = UO * WE / (GPE * LE) * GWE;
+            BETN       = UO * WE / (GPE * LE_LE) * GWE;
             STBET      = STBETO * (1.0 + STBETL * iLE) * (1.0 + STBETW * iWE) * (1.0 + STBETLW * iLE * iWE);
             MUE        = MUEO * (1.0 + MUEW * iWE);
             STMUE      = STMUEO;
@@ -2327,7 +2328,7 @@
             leff       = 0;
 `else
             weff       = WE;
-            leff       = LE;
+            leff       = LE_LE;
 `endif
             u          = (abs(gds) < 1e-18) ? 0 : (gm / gds);
             rout       = (abs(gds) < 1e-18) ? 0 : (1.0 / gds);

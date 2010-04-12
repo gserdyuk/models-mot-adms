@@ -1,6 +1,6 @@
 /***
 *** Interface: ngspice 1.0.0.0
- *** created by: admsXml-2.3.0 - Sun, 28 Feb 2010 22:30:49 ***/
+ *** created by: admsXml-2.3.0 - Mon, 12 Apr 2010 19:24:54 ***/
 
 #define NGSPICE_DEBUG_OK
 
@@ -369,7 +369,7 @@ void psp102debug (CKTcircuit *ckt, psp102model *model, psp102instance *here)
   fprintf(stdout,"model: slopebot=%e\n",model->slopebot);
   fprintf(stdout,"model: slopesti=%e\n",model->slopesti);
   fprintf(stdout,"model: slopegat=%e\n",model->slopegat);
-  fprintf(stdout,"instance: LE=%e\n",here->LE);
+  fprintf(stdout,"instance: LE_LE=%e\n",here->LE_LE);
   fprintf(stdout,"instance: WE=%e\n",here->WE);
   fprintf(stdout,"instance: VFB_i=%e\n",here->VFB_i);
   fprintf(stdout,"instance: VNSUB_i=%e\n",here->VNSUB_i);

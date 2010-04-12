@@ -1,6 +1,6 @@
 /***
 *** Interface: ngspice 1.0.0.0
- *** created by: admsXml-2.3.0 - Sun, 28 Feb 2010 22:30:49 ***/
+ *** created by: admsXml-2.3.0 - Mon, 12 Apr 2010 19:24:54 ***/
 
 
 #ifndef __psp102EXT_H

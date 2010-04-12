@@ -3,7 +3,7 @@
 TARGET = psp102
 $(TARGET):
 
-#include Makefile.am
+include Makefile.am
 
 CFILES = \
 psp102acld.c \
@@ -30,6 +30,7 @@ psp102defs.h \
 psp102ext.h \
 psp102init.h \
 psp102itf.h \
+wrapper.h \
 
 
 SPICE_VERSION = NGSPICE_20

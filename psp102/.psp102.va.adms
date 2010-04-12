@@ -1248,7 +1248,7 @@ module psp102(D, G, S, B)
     
     
     real    L_i, W_i, SA_i, SB_i;
-    real    LEN, WEN, iL, iW, delLPS, delWOD, LE, WE, iLE, iWE, Lcv, Wcv, LEcv, WEcv;
+    real    LEN, WEN, iL, iW, delLPS, delWOD, LE_LE, WE, iLE, iWE, Lcv, Wcv, LEcv, WEcv;
     
 # 478 "PSP102_module.include"
     
@@ -1823,17 +1823,18 @@ module psp102(D, G, S, B)
             delLPS     = LVARO * (1.0 + LVARL * iL) * (1.0 + LVARW * iW);
             delWOD     = WVARO * (1.0 + WVARL * iL) * (1.0 + WVARW * iW);
 
-            LE         =  ((L_i + delLPS - 2.0 * LAP)>( 1e-9)?(L_i + delLPS - 2.0 * LAP):( 1e-9));
+
+            LE_LE      =  ((L_i + delLPS - 2.0 * LAP)>( 1e-9)?(L_i + delLPS - 2.0 * LAP):( 1e-9));
             WE         =  ((W_i + delWOD - 2.0 * WOT)>( 1e-9)?(W_i + delWOD - 2.0 * WOT):( 1e-9));
             LEcv       =  ((L_i + delLPS - 2.0 * LAP + DLQ)>( 1e-9)?(L_i + delLPS - 2.0 * LAP + DLQ):( 1e-9));
             WEcv       =  ((W_i + delWOD - 2.0 * WOT + DWQ)>( 1e-9)?(W_i + delWOD - 2.0 * WOT + DWQ):( 1e-9));
             Lcv        =  ((L_i + delLPS + DLQ)>( 1e-9)?(L_i + delLPS + DLQ):( 1e-9));
             Wcv        =  ((W_i + delWOD + DWQ)>( 1e-9)?(W_i + delWOD + DWQ):( 1e-9));
-            iLE        = LEN / LE;
+            iLE        = LEN / LE_LE;
             iWE        = WEN / WE;
             juncapwidth= WE;
 
-# 881 "PSP102_module.include"
+# 882 "PSP102_module.include"
             
 
             
@@ -1843,16 +1844,16 @@ module psp102(D, G, S, B)
             NSUB0e     = NSUBO_i *  ((( 1.0 + NSUBW * iWE * ln( 1.0 + WE / WSEG_i )))>( 1.0E-03)?(( 1.0 + NSUBW * iWE * ln( 1.0 + WE / WSEG_i ))):( 1.0E-03));
             NPCKe      = NPCK_i *  ((( 1.0 + NPCKW * iWE * ln( 1.0 + WE / WSEGP_i )))>( 1.0E-03)?(( 1.0 + NPCKW * iWE * ln( 1.0 + WE / WSEGP_i ))):( 1.0E-03));
             LPCKe      = LPCK_i *  ((( 1.0 + LPCKW * iWE * ln( 1.0 + WE / WSEGP_i )))>( 1.0E-03)?(( 1.0 + LPCKW * iWE * ln( 1.0 + WE / WSEGP_i ))):( 1.0E-03));
-            if (LE > (2 * LPCKe)) begin
+            if (LE_LE > (2 * LPCKe)) begin
                 AA         = 7.5e10;
                 BB         = sqrt(NSUB0e + 0.5 * NPCKe) - sqrt(NSUB0e);
-                NSUB       = sqrt(NSUB0e) + AA * ln(1 + 2 * LPCKe / LE * (exp(BB / AA) - 1));
+                NSUB       = sqrt(NSUB0e) + AA * ln(1 + 2 * LPCKe / LE_LE * (exp(BB / AA) - 1));
                 NSUB       = NSUB * NSUB;
             end else begin
-                if (LE >= LPCKe) begin
-                       NSUB       = NSUB0e + NPCKe * LPCKe / LE;
+                if (LE_LE >= LPCKe) begin
+                       NSUB       = NSUB0e + NPCKe * LPCKe / LE_LE;
                 end else begin 
-                       NSUB       = NSUB0e + NPCKe * (2 - LE / LPCKe);
+                       NSUB       = NSUB0e + NPCKe * (2 - LE_LE / LPCKe);
                 end
             end
             NEFF       = NSUB * (1 - FOL1 * iLE - FOL2 * iLE * iLE);
@@ -1872,10 +1873,10 @@ module psp102(D, G, S, B)
             
             FBET1e     = FBET1 * (1.0 + FBET1W * iWE);
             LP1e       = LP1_i *  ((1.0 + LP1W * iWE)>( 1.0E-03)?(1.0 + LP1W * iWE):( 1.0E-03));
-            GPE        = 1.0 + FBET1e * LP1e / LE * (1.0 - exp(-LE / LP1e)) + FBET2 * LP2_i / LE * (1.0 - exp(-LE / LP2_i));
+            GPE        = 1.0 + FBET1e * LP1e / LE_LE * (1.0 - exp(-LE_LE / LP1e)) + FBET2 * LP2_i / LE_LE * (1.0 - exp(-LE_LE / LP2_i));
             GPE        =  ((GPE)>( 1e-15)?(GPE):( 1e-15));
             GWE        = 1.0 + BETW1 * iWE + BETW2 * iWE * ln(1.0 + WE / WBET_i);
-            BETN       = UO * WE / (GPE * LE) * GWE;
+            BETN       = UO * WE / (GPE * LE_LE) * GWE;
             STBET      = STBETO * (1.0 + STBETL * iLE) * (1.0 + STBETW * iWE) * (1.0 + STBETLW * iLE * iWE);
             MUE        = MUEO * (1.0 + MUEW * iWE);
             STMUE      = STMUEO;
@@ -1945,7 +1946,7 @@ module psp102(D, G, S, B)
             NFC        = iWE * iLE * NFCLW;
 
 
-# 1000 "PSP102_module.include"
+# 1001 "PSP102_module.include"
 
             
             
@@ -2160,7 +2161,7 @@ module psp102(D, G, S, B)
             
             x1         =  1.25;
             inv_xg1    =  1.0 / (x1 + GOV * 7.324648775608221e-1); 
-# 1231 "PSP102_module.include"
+# 1232 "PSP102_module.include"
 
             
             vbimins    = 0.0;
@@ -2258,7 +2259,7 @@ module psp102(D, G, S, B)
             Iimpact    =  0.0;
             mavl       =  0.0;
 
-# 1339 "PSP102_module.include"
+# 1340 "PSP102_module.include"
             if (CHNL_TYPE ==  +1) begin
                 Vgs        =  V( G, S);
                 Vds        =  V(D, S);
@@ -2777,7 +2778,7 @@ module psp102(D, G, S, B)
             
             Qfgs       =  CFR_i * Vgs;
             Qfgd       =  CFR_i * Vgd;
-# 1879 "PSP102_module.include"
+# 1880 "PSP102_module.include"
            
         end 
 
@@ -2808,7 +2809,7 @@ module psp102(D, G, S, B)
             vbbtlim = vbbtlimd;
              vbbt = 0.0; two_psistar = 0.0; if ( !( ((ABDRAIN_i) == 0) && ((LSDRAIN_i) == 0) && ((LGDRAIN_i) == 0) ) ) begin      h1   = 4.0 * ( vch) * ( vch); h2   = ( vch) / ( vfmin); h2d  = (VAK) + ( vch) * h2; h3   = ( vfmin) + h2d; h4   = ( vfmin) - h2d; h5   = sqrt(h4 * h4 + h1);  vj = 2.0 * ((VAK) * ( vfmin) / (h3 + h5));     if (VAK < VMAX)  begin          if (abs(0.5 * (VAK * phitdinv)) <  2.3025850929940458e+02) begin     zinv       = exp(0.5 * (VAK * phitdinv)); end else begin     if ((0.5 * (VAK * phitdinv)) < - 2.3025850929940458e+02) begin         zinv       =  1.0e-100 /  (1.0 + (- 2.3025850929940458e+02 - (0.5 * (VAK * phitdinv))) * (1.0 + 0.5 * ((- 2.3025850929940458e+02 - (0.5 * (VAK * phitdinv))) * (1.0 + (- 2.3025850929940458e+02 - (0.5 * (VAK * phitdinv))) *  3.3333333333333333e-01))));     end else begin         zinv       =   1.0e100 *  (1.0 + ((0.5 * (VAK * phitdinv)) -  2.3025850929940458e+02) * (1.0 + 0.5 * (((0.5 * (VAK * phitdinv)) -  2.3025850929940458e+02) * (1.0 + ((0.5 * (VAK * phitdinv)) -  2.3025850929940458e+02) *  3.3333333333333333e-01))));     end end         idmult = zinv * zinv;     end else begin          if (abs(VMAX * phitdinv) <  2.3025850929940458e+02) begin     exp_VMAX_over_phitd       = exp(VMAX * phitdinv); end else begin     if ((VMAX * phitdinv) < - 2.3025850929940458e+02) begin         exp_VMAX_over_phitd       =  1.0e-100 /  (1.0 + (- 2.3025850929940458e+02 - (VMAX * phitdinv)) * (1.0 + 0.5 * ((- 2.3025850929940458e+02 - (VMAX * phitdinv)) * (1.0 + (- 2.3025850929940458e+02 - (VMAX * phitdinv)) *  3.3333333333333333e-01))));     end else begin         exp_VMAX_over_phitd       =   1.0e100 *  (1.0 + ((VMAX * phitdinv) -  2.3025850929940458e+02) * (1.0 + 0.5 * (((VMAX * phitdinv) -  2.3025850929940458e+02) * (1.0 + ((VMAX * phitdinv) -  2.3025850929940458e+02) *  3.3333333333333333e-01))));     end end         idmult = (1 + (VAK - VMAX) * phitdinv) * exp_VMAX_over_phitd;         zinv   = sqrt(idmult);     end     idmult = idmult - 1.0;     z      = 1 / zinv;     if (VAK > 0) begin         two_psistar = 2.0 * (phitd * ln(2.0 + z + sqrt((z + 1.0) * (z + 3.0))));     end else begin         two_psistar = -VAK + 2.0 * (phitd * ln(2 * zinv + 1 + sqrt((1 + zinv) * (1 + 3 * zinv))));     end     vjlim = vbimin - two_psistar;       vjsrh = 0.5 * ((VAK) + ( vjlim) - sqrt(((VAK) - ( vjlim)) * ((VAK) - ( vjlim)) + 4 * ( phitd) * ( phitd)));       vbbt = 0.5 * ((VAK) + ( vbbtlim) - sqrt(((VAK) - ( vbbtlim)) * ((VAK) - ( vbbtlim)) + 4 * ( phitr) * ( phitr)));       vav = 0.5 * ((VAK) + ( 0) - sqrt(((VAK) - ( 0)) * ((VAK) - ( 0)) + 4 * (  1E-6) * (  1E-6))); end if ((ABDRAIN_i) == 0) begin     idjunbot = 0;     qdjunbot = 0; end else begin       if ( one_minus_PBOT == 0.5) begin      tmp = sqrt((1 - vj * vbiinvbot)); end else begin      tmp = pow((1 - vj * vbiinvbot),  one_minus_PBOT); end  qdjunbot = qprefbot * (1 - tmp) + qpref2bot * (VAK - vj); id    = idsatbot * idmult; if ((CSRHBOT_i == 0) && (CTATBOT_i == 0)) begin     isrh = 0; end else begin     vbi_minus_vjsrh = vbibot-vjsrh;     wsrhstep = 1 - sqrt(1 - two_psistar / vbi_minus_vjsrh);     if (PBOT_i == 0.5) begin         dwsrh = 0;     end else begin         dwsrh = ((wsrhstep * wsrhstep * ln(wsrhstep) / (1 - wsrhstep)) + wsrhstep) * (1 - 2 * PBOT_i);     end     wsrh  = wsrhstep + dwsrh;      if ( PBOT_i == 0.5) begin      tmp = sqrt(vbi_minus_vjsrh * VBIRBOTinv); end else begin      tmp = pow(vbi_minus_vjsrh * VBIRBOTinv,  PBOT_i); end     wdep  = wdepnulrbot * tmp;     asrh  = ftdbot * ((zinv - 1) * wdep);     isrh  = CSRHBOT_i * (asrh * wsrh); end if (CTATBOT_i == 0) begin     itat = 0; end else begin     btat  = btatpartbot * ((wdep * one_minus_PBOT) / vbi_minus_vjsrh);     twoatatoverthreebtat = ( 0.666666666666667 * atatbot) / btat;     umaxbeforelimiting = twoatatoverthreebtat * twoatatoverthreebtat;     umax  = sqrt(umaxbeforelimiting * umaxbeforelimiting / (umaxbeforelimiting * umaxbeforelimiting + 1));     sqrtumax = sqrt(abs(umax));     umaxpoweronepointfive = umax * sqrtumax;      if ( (-PBOT_i * one_over_one_minus_PBOT) == -1) begin      wgamma = 1 / ((1 + btat * umaxpoweronepointfive)); end else begin      wgamma = pow((1 + btat * umaxpoweronepointfive),  (-PBOT_i * one_over_one_minus_PBOT)); end     wtat  = wsrh * wgamma / (wsrh + wgamma);     ktat  = sqrt(0.375 * (btat / sqrtumax));     ltat  = 2 * (twoatatoverthreebtat * sqrtumax) - umax;     mtat  = atatbot * twoatatoverthreebtat * sqrtumax - atatbot * umax + 0.5 * (btat * umaxpoweronepointfive);     xerfc = (ltat - 1) * ktat;      ysq = xerfc * xerfc; if (xerfc > 0) begin     terfc = 1 / (1 + perfc * xerfc); end else begin     terfc = 1 / (1 - perfc * xerfc); end  if ((-ysq +  mtat) > - 2.3025850929940458e+02) begin     tmp       =  exp(-ysq +  mtat); end else begin     tmp       =  1.0e-100 /  (1.0 + (- 2.3025850929940458e+02 - (-ysq +  mtat)) * (1.0 + 0.5 * ((- 2.3025850929940458e+02 - (-ysq +  mtat)) * (1.0 + (- 2.3025850929940458e+02 - (-ysq +  mtat)) *  3.3333333333333333e-01)))); end erfcpos = ( 0.29214664 * terfc + berfc * (terfc * terfc) + cerfc * (terfc * terfc * terfc)) * tmp; if (xerfc > 0) begin      erfctimesexpmtat = erfcpos; end else begin     if (( mtat) > - 2.3025850929940458e+02) begin     tmp       =  exp( mtat); end else begin     tmp       =  1.0e-100 /  (1.0 + (- 2.3025850929940458e+02 - ( mtat)) * (1.0 + 0.5 * ((- 2.3025850929940458e+02 - ( mtat)) * (1.0 + (- 2.3025850929940458e+02 - ( mtat)) *  3.3333333333333333e-01)))); end      erfctimesexpmtat = 2 * tmp - erfcpos; end     gammamax =  1.77245385090551603 * 0.5 * (atatbot * erfctimesexpmtat  / ktat);     itat  = CTATBOT_i * (asrh * gammamax * wtat); end if (CBBTBOT_i == 0) begin    ibbt = 0; end else begin     if ( PBOT_i == 0.5) begin      tmp = sqrt(((VBIRBOT_i - vbbt) * VBIRBOTinv)); end else begin      tmp = pow(((VBIRBOT_i - vbbt) * VBIRBOTinv),  PBOT_i); end    Fmaxr = one_over_one_minus_PBOT * ((VBIRBOT_i - vbbt) * wdepnulrinvbot / tmp);     if (abs(-fbbtbot / Fmaxr) <  2.3025850929940458e+02) begin     tmp       = exp(-fbbtbot / Fmaxr); end else begin     if ((-fbbtbot / Fmaxr) < - 2.3025850929940458e+02) begin         tmp       =  1.0e-100 /  (1.0 + (- 2.3025850929940458e+02 - (-fbbtbot / Fmaxr)) * (1.0 + 0.5 * ((- 2.3025850929940458e+02 - (-fbbtbot / Fmaxr)) * (1.0 + (- 2.3025850929940458e+02 - (-fbbtbot / Fmaxr)) *  3.3333333333333333e-01))));     end else begin         tmp       =   1.0e100 *  (1.0 + ((-fbbtbot / Fmaxr) -  2.3025850929940458e+02) * (1.0 + 0.5 * (((-fbbtbot / Fmaxr) -  2.3025850929940458e+02) * (1.0 + ((-fbbtbot / Fmaxr) -  2.3025850929940458e+02) *  3.3333333333333333e-01))));     end end    ibbt  = CBBTBOT_i * (VAK * Fmaxr * Fmaxr * tmp); end if (VBRBOT_i >  1000) begin    fbreakdown = 1; end else begin    if (vav > - 0.999 * VBRBOT_i) begin        if ( PBRBOT_i == 4) begin      tmp = (abs(vav * VBRinvbot)) * (abs(vav * VBRinvbot)) * (abs(vav * VBRinvbot)) * (abs(vav * VBRinvbot)); end else begin      tmp = pow(abs(vav * VBRinvbot),  PBRBOT_i); end       fbreakdown = 1 / (1 - tmp);    end else begin       fbreakdown = fstopbot + (vav +  0.999 * VBRBOT_i) * slopebot;    end end idjunbot = (id + isrh + itat + ibbt) * fbreakdown; end if ((LSDRAIN_i) == 0) begin     idjunsti = 0;     qdjunsti = 0; end else begin      if ( one_minus_PSTI == 0.5) begin      tmp = sqrt((1 - vj * vbiinvsti)); end else begin      tmp = pow((1 - vj * vbiinvsti),  one_minus_PSTI); end  qdjunsti = qprefsti * (1 - tmp) + qpref2sti * (VAK - vj); id    = idsatsti * idmult; if ((CSRHSTI_i == 0) && (CTATSTI_i == 0)) begin     isrh = 0; end else begin     vbi_minus_vjsrh = vbisti-vjsrh;     wsrhstep = 1 - sqrt(1 - two_psistar / vbi_minus_vjsrh);     if (PSTI_i == 0.5) begin         dwsrh = 0;     end else begin         dwsrh = ((wsrhstep * wsrhstep * ln(wsrhstep) / (1 - wsrhstep)) + wsrhstep) * (1 - 2 * PSTI_i);     end     wsrh  = wsrhstep + dwsrh;      if ( PSTI_i == 0.5) begin      tmp = sqrt(vbi_minus_vjsrh * VBIRSTIinv); end else begin      tmp = pow(vbi_minus_vjsrh * VBIRSTIinv,  PSTI_i); end     wdep  = wdepnulrsti * tmp;     asrh  = ftdsti * ((zinv - 1) * wdep);     isrh  = CSRHSTI_i * (asrh * wsrh); end if (CTATSTI_i == 0) begin     itat = 0; end else begin     btat  = btatpartsti * ((wdep * one_minus_PSTI) / vbi_minus_vjsrh);     twoatatoverthreebtat = ( 0.666666666666667 * atatsti) / btat;     umaxbeforelimiting = twoatatoverthreebtat * twoatatoverthreebtat;     umax  = sqrt(umaxbeforelimiting * umaxbeforelimiting / (umaxbeforelimiting * umaxbeforelimiting + 1));     sqrtumax = sqrt(abs(umax));     umaxpoweronepointfive = umax * sqrtumax;      if ( (-PSTI_i * one_over_one_minus_PSTI) == -1) begin      wgamma = 1 / ((1 + btat * umaxpoweronepointfive)); end else begin      wgamma = pow((1 + btat * umaxpoweronepointfive),  (-PSTI_i * one_over_one_minus_PSTI)); end     wtat  = wsrh * wgamma / (wsrh + wgamma);     ktat  = sqrt(0.375 * (btat / sqrtumax));     ltat  = 2 * (twoatatoverthreebtat * sqrtumax) - umax;     mtat  = atatsti * twoatatoverthreebtat * sqrtumax - atatsti * umax + 0.5 * (btat * umaxpoweronepointfive);     xerfc = (ltat - 1) * ktat;      ysq = xerfc * xerfc; if (xerfc > 0) begin     terfc = 1 / (1 + perfc * xerfc); end else begin     terfc = 1 / (1 - perfc * xerfc); end  if ((-ysq +  mtat) > - 2.3025850929940458e+02) begin     tmp       =  exp(-ysq +  mtat); end else begin     tmp       =  1.0e-100 /  (1.0 + (- 2.3025850929940458e+02 - (-ysq +  mtat)) * (1.0 + 0.5 * ((- 2.3025850929940458e+02 - (-ysq +  mtat)) * (1.0 + (- 2.3025850929940458e+02 - (-ysq +  mtat)) *  3.3333333333333333e-01)))); end erfcpos = ( 0.29214664 * terfc + berfc * (terfc * terfc) + cerfc * (terfc * terfc * terfc)) * tmp; if (xerfc > 0) begin      erfctimesexpmtat = erfcpos; end else begin     if (( mtat) > - 2.3025850929940458e+02) begin     tmp       =  exp( mtat); end else begin     tmp       =  1.0e-100 /  (1.0 + (- 2.3025850929940458e+02 - ( mtat)) * (1.0 + 0.5 * ((- 2.3025850929940458e+02 - ( mtat)) * (1.0 + (- 2.3025850929940458e+02 - ( mtat)) *  3.3333333333333333e-01)))); end      erfctimesexpmtat = 2 * tmp - erfcpos; end     gammamax =  1.77245385090551603 * 0.5 * (atatsti * erfctimesexpmtat  / ktat);     itat  = CTATSTI_i * (asrh * gammamax * wtat); end if (CBBTSTI_i == 0) begin    ibbt = 0; end else begin     if ( PSTI_i == 0.5) begin      tmp = sqrt(((VBIRSTI_i - vbbt) * VBIRSTIinv)); end else begin      tmp = pow(((VBIRSTI_i - vbbt) * VBIRSTIinv),  PSTI_i); end    Fmaxr = one_over_one_minus_PSTI * ((VBIRSTI_i - vbbt) * wdepnulrinvsti / tmp);     if (abs(-fbbtsti / Fmaxr) <  2.3025850929940458e+02) begin     tmp       = exp(-fbbtsti / Fmaxr); end else begin     if ((-fbbtsti / Fmaxr) < - 2.3025850929940458e+02) begin         tmp       =  1.0e-100 /  (1.0 + (- 2.3025850929940458e+02 - (-fbbtsti / Fmaxr)) * (1.0 + 0.5 * ((- 2.3025850929940458e+02 - (-fbbtsti / Fmaxr)) * (1.0 + (- 2.3025850929940458e+02 - (-fbbtsti / Fmaxr)) *  3.3333333333333333e-01))));     end else begin         tmp       =   1.0e100 *  (1.0 + ((-fbbtsti / Fmaxr) -  2.3025850929940458e+02) * (1.0 + 0.5 * (((-fbbtsti / Fmaxr) -  2.3025850929940458e+02) * (1.0 + ((-fbbtsti / Fmaxr) -  2.3025850929940458e+02) *  3.3333333333333333e-01))));     end end    ibbt  = CBBTSTI_i * (VAK * Fmaxr * Fmaxr * tmp); end if (VBRSTI_i >  1000) begin    fbreakdown = 1; end else begin    if (vav > - 0.999 * VBRSTI_i) begin        if ( PBRSTI_i == 4) begin      tmp = (abs(vav * VBRinvsti)) * (abs(vav * VBRinvsti)) * (abs(vav * VBRinvsti)) * (abs(vav * VBRinvsti)); end else begin      tmp = pow(abs(vav * VBRinvsti),  PBRSTI_i); end       fbreakdown = 1 / (1 - tmp);    end else begin       fbreakdown = fstopsti + (vav +  0.999 * VBRSTI_i) * slopesti;    end end idjunsti = (id + isrh + itat + ibbt) * fbreakdown; end if ((LGDRAIN_i) == 0) begin     idjungat = 0;     qdjungat = 0; end else begin       if ( one_minus_PGAT == 0.5) begin      tmp = sqrt((1 - vj * vbiinvgat)); end else begin      tmp = pow((1 - vj * vbiinvgat),  one_minus_PGAT); end  qdjungat = qprefgat * (1 - tmp) + qpref2gat * (VAK - vj); id    = idsatgat * idmult; if ((CSRHGAT_i == 0) && (CTATGAT_i == 0)) begin     isrh = 0; end else begin     vbi_minus_vjsrh = vbigat-vjsrh;     wsrhstep = 1 - sqrt(1 - two_psistar / vbi_minus_vjsrh);     if (PGAT_i == 0.5) begin         dwsrh = 0;     end else begin         dwsrh = ((wsrhstep * wsrhstep * ln(wsrhstep) / (1 - wsrhstep)) + wsrhstep) * (1 - 2 * PGAT_i);     end     wsrh  = wsrhstep + dwsrh;      if ( PGAT_i == 0.5) begin      tmp = sqrt(vbi_minus_vjsrh * VBIRGATinv); end else begin      tmp = pow(vbi_minus_vjsrh * VBIRGATinv,  PGAT_i); end     wdep  = wdepnulrgat * tmp;     asrh  = ftdgat * ((zinv - 1) * wdep);     isrh  = CSRHGAT_i * (asrh * wsrh); end if (CTATGAT_i == 0) begin     itat = 0; end else begin     btat  = btatpartgat * ((wdep * one_minus_PGAT) / vbi_minus_vjsrh);     twoatatoverthreebtat = ( 0.666666666666667 * atatgat) / btat;     umaxbeforelimiting = twoatatoverthreebtat * twoatatoverthreebtat;     umax  = sqrt(umaxbeforelimiting * umaxbeforelimiting / (umaxbeforelimiting * umaxbeforelimiting + 1));     sqrtumax = sqrt(abs(umax));     umaxpoweronepointfive = umax * sqrtumax;      if ( (-PGAT_i * one_over_one_minus_PGAT) == -1) begin      wgamma = 1 / ((1 + btat * umaxpoweronepointfive)); end else begin      wgamma = pow((1 + btat * umaxpoweronepointfive),  (-PGAT_i * one_over_one_minus_PGAT)); end     wtat  = wsrh * wgamma / (wsrh + wgamma);     ktat  = sqrt(0.375 * (btat / sqrtumax));     ltat  = 2 * (twoatatoverthreebtat * sqrtumax) - umax;     mtat  = atatgat * twoatatoverthreebtat * sqrtumax - atatgat * umax + 0.5 * (btat * umaxpoweronepointfive);     xerfc = (ltat - 1) * ktat;      ysq = xerfc * xerfc; if (xerfc > 0) begin     terfc = 1 / (1 + perfc * xerfc); end else begin     terfc = 1 / (1 - perfc * xerfc); end  if ((-ysq +  mtat) > - 2.3025850929940458e+02) begin     tmp       =  exp(-ysq +  mtat); end else begin     tmp       =  1.0e-100 /  (1.0 + (- 2.3025850929940458e+02 - (-ysq +  mtat)) * (1.0 + 0.5 * ((- 2.3025850929940458e+02 - (-ysq +  mtat)) * (1.0 + (- 2.3025850929940458e+02 - (-ysq +  mtat)) *  3.3333333333333333e-01)))); end erfcpos = ( 0.29214664 * terfc + berfc * (terfc * terfc) + cerfc * (terfc * terfc * terfc)) * tmp; if (xerfc > 0) begin      erfctimesexpmtat = erfcpos; end else begin     if (( mtat) > - 2.3025850929940458e+02) begin     tmp       =  exp( mtat); end else begin     tmp       =  1.0e-100 /  (1.0 + (- 2.3025850929940458e+02 - ( mtat)) * (1.0 + 0.5 * ((- 2.3025850929940458e+02 - ( mtat)) * (1.0 + (- 2.3025850929940458e+02 - ( mtat)) *  3.3333333333333333e-01)))); end      erfctimesexpmtat = 2 * tmp - erfcpos; end     gammamax =  1.77245385090551603 * 0.5 * (atatgat * erfctimesexpmtat  / ktat);     itat  = CTATGAT_i * (asrh * gammamax * wtat); end if (CBBTGAT_i == 0) begin    ibbt = 0; end else begin     if ( PGAT_i == 0.5) begin      tmp = sqrt(((VBIRGAT_i - vbbt) * VBIRGATinv)); end else begin      tmp = pow(((VBIRGAT_i - vbbt) * VBIRGATinv),  PGAT_i); end    Fmaxr = one_over_one_minus_PGAT * ((VBIRGAT_i - vbbt) * wdepnulrinvgat / tmp);     if (abs(-fbbtgat / Fmaxr) <  2.3025850929940458e+02) begin     tmp       = exp(-fbbtgat / Fmaxr); end else begin     if ((-fbbtgat / Fmaxr) < - 2.3025850929940458e+02) begin         tmp       =  1.0e-100 /  (1.0 + (- 2.3025850929940458e+02 - (-fbbtgat / Fmaxr)) * (1.0 + 0.5 * ((- 2.3025850929940458e+02 - (-fbbtgat / Fmaxr)) * (1.0 + (- 2.3025850929940458e+02 - (-fbbtgat / Fmaxr)) *  3.3333333333333333e-01))));     end else begin         tmp       =   1.0e100 *  (1.0 + ((-fbbtgat / Fmaxr) -  2.3025850929940458e+02) * (1.0 + 0.5 * (((-fbbtgat / Fmaxr) -  2.3025850929940458e+02) * (1.0 + ((-fbbtgat / Fmaxr) -  2.3025850929940458e+02) *  3.3333333333333333e-01))));     end end    ibbt  = CBBTGAT_i * (VAK * Fmaxr * Fmaxr * tmp); end if (VBRGAT_i >  1000) begin    fbreakdown = 1; end else begin    if (vav > - 0.999 * VBRGAT_i) begin        if ( PBRGAT_i == 4) begin      tmp = (abs(vav * VBRinvgat)) * (abs(vav * VBRinvgat)) * (abs(vav * VBRinvgat)) * (abs(vav * VBRinvgat)); end else begin      tmp = pow(abs(vav * VBRinvgat),  PBRGAT_i); end       fbreakdown = 1 / (1 - tmp);    end else begin       fbreakdown = fstopgat + (vav +  0.999 * VBRGAT_i) * slopegat;    end end idjungat = (id + isrh + itat + ibbt) * fbreakdown; end
 
-# 1914 "PSP102_module.include"
+# 1915 "PSP102_module.include"
         end 
 
 
@@ -2858,7 +2859,7 @@ module psp102(D, G, S, B)
             I( G,  B) <+  CHNL_TYPE * Igbe;
             I( B, S)      <+  CHNL_TYPE * isjun;
             I( B, D)      <+  CHNL_TYPE * idjun;
-# 1970 "PSP102_module.include"
+# 1971 "PSP102_module.include"
 
             I(D, S)  <+  Vds *  1E-15;
 
@@ -2871,7 +2872,7 @@ module psp102(D, G, S, B)
         
 
         begin : loadDynamic
-# 1987 "PSP102_module.include"
+# 1988 "PSP102_module.include"
 
             
 
@@ -2978,7 +2979,7 @@ module psp102(D, G, S, B)
                 sjnoise    =  sjnoisex + shot_iavl;
                 djnoise    =  djnoisex;
             end
-# 2100 "PSP102_module.include"
+# 2101 "PSP102_module.include"
 
             
             
@@ -3003,7 +3004,7 @@ module psp102(D, G, S, B)
             
             I( B,S) <+  white_noise(sjnoise, "shot");
             I( B,D) <+  white_noise(djnoise, "shot");
-# 2132 "PSP102_module.include"
+# 2133 "PSP102_module.include"
         end 
 
 
@@ -3197,9 +3198,9 @@ module psp102(D, G, S, B)
                 cjdsti     = -MULT_i * CHNL_TYPE * LSDRAIN_i * ddx(qdjunsti, V(D,  B));
                 cjd        =  cjdbot + cjdgat + cjdsti;
             end
-# 2329 "PSP102_module.include"
+# 2330 "PSP102_module.include"
             weff       = WE;
-            leff       = LE;
+            leff       = LE_LE;
 
             u          = (abs(gds) < 1e-18) ? 0 : (gm / gds);
             rout       = (abs(gds) < 1e-18) ? 0 : (1.0 / gds);

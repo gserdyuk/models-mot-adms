@@ -1,6 +1,6 @@
 /***
 *** Interface: ngspice 1.0.0.0
- *** created by: admsXml-2.3.0 - Sun, 28 Feb 2010 22:30:49 ***/
+ *** created by: admsXml-2.3.0 - Mon, 12 Apr 2010 19:24:54 ***/
 
 
 #ifndef psp102
@@ -1678,12 +1678,12 @@
   #warning conflict: You can solve the confict by renaming variable 'delWOD' in module 'psp102'.
   #undef delWOD
 #endif
-#ifdef LE
-  #warning conflict: LE is declared as a variable of module 'psp102'.
-  #warning conflict: However in the API of ngspice 'LE' is also defined as a pragma.
-  #warning conflict: Pragma 'LE' will be undefined.
-  #warning conflict: You can solve the confict by renaming variable 'LE' in module 'psp102'.
-  #undef LE
+#ifdef LE_LE
+  #warning conflict: LE_LE is declared as a variable of module 'psp102'.
+  #warning conflict: However in the API of ngspice 'LE_LE' is also defined as a pragma.
+  #warning conflict: Pragma 'LE_LE' will be undefined.
+  #warning conflict: You can solve the confict by renaming variable 'LE_LE' in module 'psp102'.
+  #undef LE_LE
 #endif
 #ifdef WE
   #warning conflict: WE is declared as a variable of module 'psp102'.
@@ -7407,7 +7407,7 @@ typedef struct spsp102instance {
   double wnoise6;
 
 
-  /* variables */  double LE;
+  /* variables */  double LE_LE;
   double WE;
   double VFB_i;
   double VNSUB_i;

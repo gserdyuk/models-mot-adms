@@ -25549,8 +25549,8 @@ pInst->weff=pInst->WE;
 EXIT_IF_ISNAN(pInst->WE)
 #endif
 #if defined(_DYNAMIC)
-pInst->leff=pInst->LE;
-EXIT_IF_ISNAN(pInst->LE)
+pInst->leff=pInst->LE_LE;
+EXIT_IF_ISNAN(pInst->LE_LE)
 #endif
 #if defined(_DYNAMIC)
 {
