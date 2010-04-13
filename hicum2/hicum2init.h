@@ -1,6 +1,6 @@
 /***
 *** Interface: ngspice 1.0.0.0
- *** created by: admsXml-2.3.0 - Sun, 28 Feb 2010 22:28:36 ***/
+ *** created by: admsXml-2.3.0 - Tue, 13 Apr 2010 14:29:51 ***/
 
 
 #ifndef _hicum2INIT_H

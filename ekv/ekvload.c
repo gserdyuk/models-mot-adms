@@ -1,6 +1,6 @@
 /***
 *** Interface: ngspice 1.0.0.0
- *** created by: admsXml-2.3.0 - Wed, 24 Mar 2010 00:50:59 ***/
+ *** created by: admsXml-2.3.0 - Tue, 13 Apr 2010 10:12:43 ***/
 
 #define NGSPICE_DEBUG_OK
 

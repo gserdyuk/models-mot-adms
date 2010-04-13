@@ -1,6 +1,6 @@
 /***
 *** Interface: ngspice 1.0.0.0
- *** created by: admsXml-2.3.0 - Sun, 28 Feb 2010 22:30:15 ***/
+ *** created by: admsXml-2.3.0 - Tue, 13 Apr 2010 13:45:17 ***/
 
 #include "config.h"
 

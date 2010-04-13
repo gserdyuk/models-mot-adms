@@ -3,7 +3,7 @@
 TARGET = hicum2
 $(TARGET):
 
-#include Makefile.am
+include Makefile.am
 
 CFILES = \
 hicum2acld.c \
@@ -34,6 +34,11 @@ hicum2itf.h \
 wrapper.h \
 
 
-SPICE_VERSION = NGSPICE_20
+SPICE_VERSION = NGSPICE_17
+# NGSPICE_17 is defined in spice_wrapper 
 include ../Make2
 
+cleanadms:
+	rm hicum2*.*; rm discipline.h constants.h; rm .*
+#do not delete wrapper.h !!
+         

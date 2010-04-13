@@ -1,6 +1,6 @@
 ##
 ## Interface: ngspice 1.0.0.0
-## created by: admsXml-2.3.0 - Sun, 11 Apr 2010 16:29:26
+## created by: admsXml-2.3.0 - Tue, 13 Apr 2010 13:46:25
 
 ## Process this file with automake to produce Makefile.in
 

@@ -1,4 +1,4 @@
 #!/bin/bash
 GNUCAP=../../../src/gnucap
 NAME=fg_vce_1_1
-$GNUCAP -a ../../hicum2/hicum2.so -b $NAME.gckt | tee $NAME.gckt.out
+$GNUCAP -a ../../hicum2/hicum2.so -b $NAME.gckt > $NAME.gckt.out

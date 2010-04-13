@@ -2,6 +2,6 @@
 source ../compare_results.inc
 
 for FILE in `ls *.gckt.out`; do
-  mydiff $FILE ./golden >>../diffs
+  mydiff $FILE ./golden >>../diffs 2>&1
   printresult1 "test hicum0 $FILE" $?
 done

@@ -1,0 +1,17 @@
+#!/bin/bash
+
+LIST=`ls`
+CURR=$PWD
+for ITEM in $LIST; do
+    if [ -d $ITEM ] ; then # is directory
+	cd $ITEM
+	if [ -f ./run_tests ]; then
+	    echo "doing test $ITEM"
+	    ./run_tests
+	fi
+	cd $CURR
+    else
+    :
+    # echo "$ITEM not directory"
+    fi
+done

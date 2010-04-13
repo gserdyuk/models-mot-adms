@@ -33,6 +33,11 @@ rtestitf.h \
 wrapper.h \
 
 
-SPICE_VERSION = NGSPICE_20
+SPICE_VERSION = NGSPICE_17
+# NGSPICE_17 is defined in spice_wrapper 
 include ../Make2
 
+cleanadms:
+	rm rtest*.*; rm discipline.h constants.h; rm .*
+#do not delete wrapper.h !!
+         

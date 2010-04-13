@@ -4,3 +4,4 @@
 *.so
 tmp/*
 *.gckt.out
+*.bak

@@ -33,6 +33,11 @@ psp102itf.h \
 wrapper.h \
 
 
-SPICE_VERSION = NGSPICE_20
+SPICE_VERSION = NGSPICE_17
+# NGSPICE_17 is defined in spice_wrapper 
 include ../Make2
 
+cleanadms:
+	rm psp102*.*; rm discipline.h constants.h; rm .*
+#do not delete wrapper.h !!
+         

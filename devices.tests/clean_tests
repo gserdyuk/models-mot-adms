@@ -1,0 +1,17 @@
+#!/bin/bash
+
+LIST=`ls`
+CURR=$PWD
+COMMAND=clean_tests
+for ITEM in $LIST; do
+    if [ -d $ITEM ] ; then # is directory
+	cd $ITEM
+	if [ -f ./$COMMAND ]; then
+	    ./COMMAND
+	fi
+	cd $CURR
+    else
+    :
+    # echo "$ITEM not directory"
+    fi
+done

@@ -1,6 +1,6 @@
 /***
 *** Interface: ads2002 2.2.0.0
- *** created by: admsXml-2.3.0 - Sun, 11 Apr 2010 16:28:31 ***/
+ *** created by: admsXml-2.3.0 - Tue, 13 Apr 2010 13:46:34 ***/
 
 
 #include "ngspice.h"

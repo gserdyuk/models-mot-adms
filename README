@@ -73,3 +73,12 @@ To install, you can copy the ".so" files to where you want them.
 VII. Add own models
 -------------------
 look model_add.howto
+
+VIII. TBD
+----------
+1. put in order ./buildMakefile and makefile itself, so dependencies will be correct
+now after 
+>make -f Makefile.gnucap cleanadms
+need to run
+>make -f makefile.am 
+to rebuild c files

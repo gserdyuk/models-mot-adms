@@ -31,8 +31,14 @@ ekvdefs.h \
 ekvext.h \
 ekvinit.h \
 ekvitf.h \
+wrapper.h \
 
 
-SPICE_VERSION = NGSPICE_20
+SPICE_VERSION = NGSPICE_17
+# NGSPICE_17 is defined in spice_wrapper 
 include ../Make2
 
+cleanadms:
+	rm ekv*.*; rm discipline.h constants.h; rm .*
+#do not delete wrapper.h !!
+         

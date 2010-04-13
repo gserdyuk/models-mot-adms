@@ -1,0 +1,97 @@
+/***
+*** Interface: ads2002 2.2.0.0
+ *** created by: admsXml-2.3.0 - Tue, 13 Apr 2010 10:12:43 ***/
+
+
+#include "ngspice.h"
+#include "devdefs.h"
+#include "ekvdefs.h"
+#include "suffix.h"
+IFparm ekvpTable[] = {
+ IOP("L",ekv_instance_L,IF_REAL,"L"),
+ IOP("W",ekv_instance_W,IF_REAL,"W"),
+ IOP("M",ekv_instance_M,IF_REAL,"M"),
+ IOP("AD",ekv_instance_AD,IF_REAL,"AD"),
+ IOP("AS",ekv_instance_AS,IF_REAL,"AS"),
+ IOP("PD",ekv_instance_PD,IF_REAL,"PD"),
+ IOP("PS",ekv_instance_PS,IF_REAL,"PS"),
+ IOP("NRD",ekv_instance_NRD,IF_REAL,"NRD"),
+ IOP("NRS",ekv_instance_NRS,IF_REAL,"NRS"),
+ IOP("RS",ekv_instance_RS,IF_REAL,"RS"),
+ IOP("RD",ekv_instance_RD,IF_REAL,"RD")
+};
+IFparm ekvmPTable[] = {
+ IOP("nmos",ekv_model_nmos,IF_INTEGER,"nmos"),
+ IOP("pmos",ekv_model_pmos,IF_INTEGER,"pmos"),
+ IOP("MTYPE",ekv_model_MTYPE,IF_INTEGER,"MTYPE"),
+ IOP("TNOM",ekv_model_TNOM,IF_REAL,"TNOM"),
+ IOP("IMAX",ekv_model_IMAX,IF_REAL,"IMAX"),
+ IOP("TOX",ekv_model_TOX,IF_REAL,"TOX"),
+ IOP("NSUB",ekv_model_NSUB,IF_REAL,"NSUB"),
+ IOP("VFB",ekv_model_VFB,IF_REAL,"VFB"),
+ IOP("UO",ekv_model_UO,IF_REAL,"UO"),
+ IOP("VMAX",ekv_model_VMAX,IF_REAL,"VMAX"),
+ IOP("THETA",ekv_model_THETA,IF_REAL,"THETA"),
+ IOP("COX",ekv_model_COX,IF_REAL,"COX"),
+ IOP("XJ",ekv_model_XJ,IF_REAL,"XJ"),
+ IOP("DL",ekv_model_DL,IF_REAL,"DL"),
+ IOP("DW",ekv_model_DW,IF_REAL,"DW"),
+ IOP("GAMMA",ekv_model_GAMMA,IF_REAL,"GAMMA"),
+ IOP("PHI",ekv_model_PHI,IF_REAL,"PHI"),
+ IOP("VTO",ekv_model_VTO,IF_REAL,"VTO"),
+ IOP("KP",ekv_model_KP,IF_REAL,"KP"),
+ IOP("UCRIT",ekv_model_UCRIT,IF_REAL,"UCRIT"),
+ IOP("E0",ekv_model_E0,IF_REAL,"E0"),
+ IOP("LAMBDA",ekv_model_LAMBDA,IF_REAL,"LAMBDA"),
+ IOP("WETA",ekv_model_WETA,IF_REAL,"WETA"),
+ IOP("LETA",ekv_model_LETA,IF_REAL,"LETA"),
+ IOP("Q0",ekv_model_Q0,IF_REAL,"Q0"),
+ IOP("LK",ekv_model_LK,IF_REAL,"LK"),
+ IOP("IBA",ekv_model_IBA,IF_REAL,"IBA"),
+ IOP("IBB",ekv_model_IBB,IF_REAL,"IBB"),
+ IOP("IBN",ekv_model_IBN,IF_REAL,"IBN"),
+ IOP("TCV",ekv_model_TCV,IF_REAL,"TCV"),
+ IOP("BEX",ekv_model_BEX,IF_REAL,"BEX"),
+ IOP("UCEX",ekv_model_UCEX,IF_REAL,"UCEX"),
+ IOP("IBBT",ekv_model_IBBT,IF_REAL,"IBBT"),
+ IOP("AVTO",ekv_model_AVTO,IF_REAL,"AVTO"),
+ IOP("AKP",ekv_model_AKP,IF_REAL,"AKP"),
+ IOP("AGAMMA",ekv_model_AGAMMA,IF_REAL,"AGAMMA"),
+ IOP("KF",ekv_model_KF,IF_REAL,"KF"),
+ IOP("AF",ekv_model_AF,IF_REAL,"AF"),
+ IOP("NQS",ekv_model_NQS,IF_REAL,"NQS"),
+ IOP("SATLIM",ekv_model_SATLIM,IF_REAL,"SATLIM"),
+ IOP("XQC",ekv_model_XQC,IF_REAL,"XQC"),
+ IOP("HDIF",ekv_model_HDIF,IF_REAL,"HDIF"),
+ IOP("RSH",ekv_model_RSH,IF_REAL,"RSH"),
+ IOP("JS",ekv_model_JS,IF_REAL,"JS"),
+ IOP("JSW",ekv_model_JSW,IF_REAL,"JSW"),
+ IOP("XTI",ekv_model_XTI,IF_REAL,"XTI"),
+ IOP("N",ekv_model_N,IF_REAL,"N"),
+ IOP("CJ",ekv_model_CJ,IF_REAL,"CJ"),
+ IOP("CJSW",ekv_model_CJSW,IF_REAL,"CJSW"),
+ IOP("PB",ekv_model_PB,IF_REAL,"PB"),
+ IOP("PBSW",ekv_model_PBSW,IF_REAL,"PBSW"),
+ IOP("MJ",ekv_model_MJ,IF_REAL,"MJ"),
+ IOP("MJSW",ekv_model_MJSW,IF_REAL,"MJSW"),
+ IOP("FC",ekv_model_FC,IF_REAL,"FC"),
+ IOP("FCSW",ekv_model_FCSW,IF_REAL,"FCSW"),
+ IOP("CGSO",ekv_model_CGSO,IF_REAL,"CGSO"),
+ IOP("CGDO",ekv_model_CGDO,IF_REAL,"CGDO"),
+ IOP("CGBO",ekv_model_CGBO,IF_REAL,"CGBO")
+};
+
+
+char *ekvnames[] = { "d",
+ "g",
+ "s",
+ "b",
+ "di",
+ "si"
+};
+
+int ekvnSize = NUMELEMS(ekvnames);
+int ekvpTSize = NUMELEMS(ekvpTable);
+int ekvmPTSize = NUMELEMS(ekvmPTable);
+int ekviSize = sizeof(ekvinstance);
+int ekvmSize = sizeof(ekvmodel);
