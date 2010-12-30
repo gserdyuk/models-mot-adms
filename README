@@ -1,4 +1,4 @@
-GNUVCAP MOT-ADMS
+GNUCAP MOT-ADMS
 
 I. Introduction
 ---------------
@@ -31,7 +31,7 @@ COPYING for details.  Note that this is not GPL.
 
 The "Include" directory contains files from NG-spice. 
 
-IV. Molde Modifications
+IV. Model Modifications
 -----------------------
 
 There are no modifications to any of the model code, other than to add
@@ -45,13 +45,14 @@ on some of them, and they appear to give believable reslts.  A few
 tests were run comparing to references supplied by Berkeley, and the
 results match within set tolerances.
 
-VI. BUILD INSTRUCTIONS
-----------------------
+VI. BUILD
+---------
 Copy in the same directory as the gnucap source.
 
-Link package to gnucap sources:
-  > cd gnucap-mot-adms
-  >ln -s <gnucap-directory>/src Gnucap
+THis package requires gnucap.
+Assure that this package and gnucap sources are located correcrly to each other.
+../../gnucap-a/ shall contain "gnucap" directory. 
+  
 
 If you are building with a compiler other than gcc and g++, you will
 need to change the "Make2" file.  If you are cross-compiling with

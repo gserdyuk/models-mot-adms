@@ -25,7 +25,7 @@ I. General Sequence
 6) make :
    >make -f Makefile.gnucap
   
-7) install resulting library wherever you want to use with gnjucap, 
+7) install resulting library wherever you want to use with gnucap, 
    load it as usual library
    
 II. Example

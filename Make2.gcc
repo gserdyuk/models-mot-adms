@@ -3,7 +3,7 @@
 PREFIX = /usr/local/gnucap
 INSTALL_DIR = $(PREFIX)/lib/models/ngspice17
 SPICE_INCLUDE = ../Include
-GNUCAP_INCLUDE = ../Gnucap
+GNUCAP_INCLUDE = ../../gnucap-a/gnucap/src
 VPATH = .:$(SPICE_INCLUDE):$(GNUCAP_INCLUDE)
 
 C_SRCS = $(CFILES) devsup.c
